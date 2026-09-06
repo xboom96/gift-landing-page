@@ -1,15 +1,93 @@
 {
   "logo_text": "AURA GIFTS",
   "promo_text": "✨ 50% OFF FLASH SALE ENDING IN:",
+  "live_proof_text": "23 shoppers viewing right now | 148 orders placed today",
   "product_title": "Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)",
+  "review_summary": "★★★★★ 4.9/5 (1,420+ Verified Reviews)",
   "price_current": "34.99",
   "price_original": "69.99",
   "stock_remaining": 5,
   "cta_text": "CLAIM OFFER & FREE DELIVERY",
+  "checkout_url": "#",
+  "gallery_images": [
+    { "image_url": "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80" },
+    { "image_url": "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80" },
+    { "image_url": "https://images.unsplash.com/photo-1513297887119-d46091b24bfa?auto=format&fit=crop&w=800&q=80" },
+    { "image_url": "https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?auto=format&fit=crop&w=800&q=80" },
+    { "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" }
+  ],
+  "feature_bullets": [
+    { "text": "Real Magnetic Levitation (Floats & Rotates Smoothly)" },
+    { "text": "Ambient Warm Night Light for Cozy Spaces" },
+    { "text": "Includes Luxury Gift Box & USB-C Cable" },
+    { "text": "30-Day Risk-Free Money-Back Guarantee" }
+  ],
+  "bundles": [
+    {
+      "qty": 1,
+      "title": "Buy 1 Set (Holiday Starter)",
+      "sub": "Standard Gift Packaging Included",
+      "total_price": 34.99,
+      "orig_price": 69.99,
+      "save_text": "Save 50%",
+      "ribbon": "",
+      "checkout_url": "#"
+    },
+    {
+      "qty": 2,
+      "title": "Buy 2 Sets (Family & Gifting)",
+      "sub": "Free Luxury Gift Bag + Save Extra $10",
+      "total_price": 59.99,
+      "orig_price": 139.98,
+      "save_text": "Save 57%",
+      "ribbon": "MOST POPULAR",
+      "checkout_url": "#"
+    },
+    {
+      "qty": 3,
+      "title": "Buy 3 Sets (Ultimate Home Decor)",
+      "sub": "Free VIP Express Tracked Delivery",
+      "total_price": 79.99,
+      "orig_price": 209.97,
+      "save_text": "Save 62%",
+      "ribbon": "BEST VALUE",
+      "checkout_url": "#"
+    }
+  ],
   "reviews": [
     {
       "user": "Samantha R. 🇺🇸",
-      "comment": "Saw this on my TikTok FYP and took a chance. It literally floats in mid-air!"
+      "comment": "Saw this on my TikTok FYP and took a chance. It literally floats in mid-air with zero wires touching it! Everyone who walks into our living room stops and asks about it."
+    },
+    {
+      "user": "David M. 🇬🇧",
+      "comment": "Arrived in 6 days to the UK. Packaging is high quality, perfect for gifting. The rotation is super quiet and therapeutic."
+    },
+    {
+      "user": "Chloe T. 🇦🇺",
+      "comment": "The warm glow at night is gorgeous. Bought this as an early Christmas gift for my mom and she literally teared up. Setup took less than a minute!"
+    },
+    {
+      "user": "Marcus L. 🇨🇦",
+      "comment": "Was worried it would be gimmicky or loud, but the magnet base is heavy, solid, and holds the balance effortlessly. Top tier customer care team too."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Is it hard to set up?",
+      "answer": "Not at all! Plug in the magnetic base, hold the sleigh gently about 1–2 cm directly above the center until you feel the magnetic field lock in, and release gently. It balances in under 30 seconds."
+    },
+    {
+      "question": "Does it make any noise while floating?",
+      "answer": "No, the levitation and smooth 360-degree rotation operate with zero friction and zero motor hum. It is completely silent."
+    },
+    {
+      "question": "Does it need batteries?",
+      "answer": "No batteries needed. It powers continuously via the included universal USB-C cable and wall adapter, keeping both the float and warm night light active."
+    },
+    {
+      "question": "What if it arrives damaged or I don’t like it?",
+      "answer": "Every order is backed by our 30-Day Risk-Free Money-Back Guarantee. If anything arrives damaged or you are unsatisfied, contact our support team for an immediate replacement or full refund."
     }
   ]
 }
