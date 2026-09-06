@@ -83,13 +83,11 @@
       flex-direction: column;
       gap: 20px;
     }
-    .studio-content.active-tab-content {
-      display: flex;
-    }
+    .studio-content.active-tab-content { display: flex; }
 
     .field-group { display: flex; flex-direction: column; gap: 6px; }
     .field-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--panel-muted); }
-    .field-input, .field-textarea, select.field-input {
+    .field-input, .field-textarea {
       background: var(--panel-surface);
       border: 1px solid var(--panel-border);
       border-radius: 8px;
@@ -161,7 +159,7 @@
     }
     .btn-add-item:hover { background: rgba(56, 189, 248, 0.08); }
 
-    /* FOOTER */
+    /* FOOTER ACTIONS */
     .studio-footer {
       padding: 16px 20px;
       border-top: 1px solid var(--panel-border);
@@ -198,7 +196,7 @@
       cursor: pointer;
     }
 
-    /* CANVAS */
+    /* CANVAS PREVIEW */
     .studio-canvas {
       flex: 1;
       background: #030712;
@@ -233,6 +231,7 @@
       cursor: pointer;
     }
     .device-btn.active { background: #334155; color: #FFF; }
+
     .canvas-viewport {
       flex: 1;
       overflow-y: auto;
@@ -251,8 +250,9 @@
       transition: max-width 0.3s ease;
       min-height: 850px;
     }
-    .device-frame.desktop { max-width: 1100px; border-radius: 12px; }
+    .device-frame.desktop { max-width: 1080px; border-radius: 12px; }
 
+    /* EDITABLE HIGHLIGHT */
     [contenteditable="true"] {
       outline: 1px dashed transparent;
       transition: outline 0.15s, background 0.15s;
@@ -281,18 +281,19 @@
 
     <!-- TABS -->
     <div class="studio-tabs">
-      <button class="studio-tab-btn active" id="btn-tab-general" onclick="switchTab('tab-general', this)">General</button>
-      <button class="studio-tab-btn" id="btn-tab-bundles" onclick="switchTab('tab-bundles', this)">Bundles</button>
-      <button class="studio-tab-btn" id="btn-tab-gallery" onclick="switchTab('tab-gallery', this)">Images</button>
-      <button class="studio-tab-btn" id="btn-tab-reviews" onclick="switchTab('tab-reviews', this)">Reviews</button>
-      <button class="studio-tab-btn" id="btn-tab-faqs" onclick="switchTab('tab-faqs', this)">FAQs</button>
+      <button class="studio-tab-btn active" onclick="switchTab('tab-general', this)">General</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-bundles', this)">Bundles</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-gallery', this)">Images</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-reviews', this)">Reviews</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-faqs', this)">FAQs</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-footer', this)">Footer</button>
     </div>
 
     <!-- 1. GENERAL TAB -->
     <div class="studio-content active-tab-content" id="tab-general">
       <div class="field-group">
-        <label class="field-label">Brand Name (Header / Title)</label>
-        <input type="text" class="field-input" id="inp-brand" value="AURA GIFTS" oninput="syncField('brandLogo', this.value)">
+        <label class="field-label">Brand Name</label>
+        <input type="text" class="field-input" id="inp-brand" value="AURA GIFTS" oninput="updateBrand(this.value)">
       </div>
 
       <div class="field-group">
@@ -327,11 +328,6 @@
       <div class="field-group">
         <label class="field-label">Remaining Stock Count</label>
         <input type="number" class="field-input" value="5" oninput="syncField('stockCount', 'Only ' + this.value + ' Units Remaining!')">
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">Global Checkout URL (Fallback)</label>
-        <input type="text" class="field-input" id="globalCheckout" value="#" placeholder="https://your-store/checkout">
       </div>
     </div>
 
@@ -380,7 +376,26 @@
       <button class="btn-add-item" onclick="addNewFaq()">+ Add FAQ Question</button>
     </div>
 
-    <!-- FOOTER -->
+    <!-- 6. FOOTER TAB -->
+    <div class="studio-content" id="tab-footer">
+      <div class="toggle-row">
+        <span>Show Luxury Black Footer</span>
+        <label class="switch">
+          <input type="checkbox" checked onchange="toggleEl('luxuryFooterSection', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Footer Brand Bio</label>
+        <textarea class="field-textarea" oninput="syncField('footerBio', this.value)">Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.</textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Trust Badge Image Source</label>
+        <input type="text" class="field-input" value="trust-badge.png" oninput="document.getElementById('trustBadgeImg').src = this.value;">
+      </div>
+    </div>
+
+    <!-- FOOTER ACTIONS -->
     <div class="studio-footer">
       <button class="btn-publish-gh" onclick="publishLiveGitHub()">
         🚀 1-Click Publish Live
@@ -399,7 +414,7 @@
         <button class="device-btn" onclick="setDevice('desktop', this)">💻 Desktop View</button>
       </div>
       <div style="font-size: 12px; color: var(--panel-muted);">
-        ✨ <b>Click any text</b> on the page to edit directly
+        ✨ <b>Click any text</b> to edit directly
       </div>
     </div>
 
@@ -491,6 +506,58 @@
 
         </div>
 
+        <!-- LUXURY BLACK FOOTER (PREVIEW & PRODUCTION) -->
+        <footer id="luxuryFooterSection" style="background:#000000; color:#94A3B8; padding:45px 16px 28px; border-top:1px solid rgba(255,255,255,0.08);">
+          <div style="max-width:1000px; margin:0 auto;">
+            
+            <!-- Trust Strip -->
+            <div style="display:grid; grid-template-columns:1fr; gap:12px; background:#0B0E14; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px; margin-bottom:36px;">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="font-size:22px;">🛡️</div>
+                <div>
+                  <div style="color:#FFF; font-size:13px; font-weight:700;">30-Day Risk-Free Trial</div>
+                  <div style="font-size:11.5px; color:#64748B;">100% full money-back guarantee.</div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="font-size:22px;">✈️</div>
+                <div>
+                  <div style="color:#FFF; font-size:13px; font-weight:700;">Tracked Global Shipping</div>
+                  <div style="font-size:11.5px; color:#64748B;">Direct tracking links with delivery alerts.</div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="font-size:22px;">🔒</div>
+                <div>
+                  <div style="color:#FFF; font-size:13px; font-weight:700;">256-Bit Encrypted Vault</div>
+                  <div style="font-size:11.5px; color:#64748B;">Bank-grade certified secure checkout.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Brand Bio & Newsletter -->
+            <div style="margin-bottom:32px;">
+              <h3 id="footerBrandLogo" contenteditable="true" style="color:#FFFFFF; font-size:17px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px;">AURA GIFTS</h3>
+              <p id="footerBio" contenteditable="true" style="font-size:13px; line-height:1.6; color:#94A3B8; margin-bottom:18px;">
+                Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.
+              </p>
+              <div style="display:flex; background:#0B0E14; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:4px 4px 4px 12px; max-width:380px;">
+                <input type="email" placeholder="Enter your email..." style="background:transparent; border:none; color:#FFF; font-size:12px; outline:none; flex:1;">
+                <button style="background:#FFF; color:#000; border:none; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Join</button>
+              </div>
+            </div>
+
+            <!-- Copyright & Trust Badge -->
+            <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:20px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;">
+              <img id="trustBadgeImg" src="trust-badge.png" alt="Guaranteed Safe Checkout" style="height:26px; width:auto; max-width:280px; object-fit:contain;">
+              <div style="color:#64748B; font-size:11.5px;">
+                © 2026 <span id="footerBrandCopy">AURA GIFTS</span> Inc. All rights reserved. Powered by Shopify Checkout.
+              </div>
+            </div>
+
+          </div>
+        </footer>
+
       </div>
     </div>
   </main>
@@ -520,25 +587,16 @@
       ]
     };
 
-    // TAB SWITCHER - Fixed Direct Handler
+    // Tab Switcher
     function switchTab(tabId, btnElement) {
-      document.querySelectorAll('.studio-content').forEach(el => {
-        el.classList.remove('active-tab-content');
-      });
-      document.querySelectorAll('.studio-tab-btn').forEach(b => {
-        b.classList.remove('active');
-      });
-      
-      const targetContent = document.getElementById(tabId);
-      if (targetContent) {
-        targetContent.classList.add('active-tab-content');
-      }
-      if (btnElement) {
-        btnElement.classList.add('active');
-      }
+      document.querySelectorAll('.studio-content').forEach(el => el.classList.remove('active-tab-content'));
+      document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active'));
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active-tab-content');
+      if (btnElement) btnElement.classList.add('active');
     }
 
-    // Render Canvas
+    // Canvas Renderer
     function renderPreview() {
       // Bundles
       const bContainer = document.getElementById('bundleContainer');
@@ -572,7 +630,7 @@
         document.getElementById('badgeSave').innerText = sel.save;
       }
 
-      // Gallery Thumbnails
+      // Gallery Strip
       const strip = document.getElementById('thumbStrip');
       strip.innerHTML = '';
       store.gallery.forEach((url, i) => {
@@ -617,9 +675,9 @@
       renderPreview();
     }
 
-    // Sidebar Controls Builder
+    // Sidebar Controls Renderer
     function renderSidebarControls() {
-      // Bundles Controls
+      // Bundles
       const bCtrl = document.getElementById('bundle-list-controls');
       bCtrl.innerHTML = '';
       store.bundles.forEach((b, idx) => {
@@ -638,7 +696,7 @@
         `;
       });
 
-      // Gallery Controls
+      // Gallery
       const gCtrl = document.getElementById('gallery-controls');
       gCtrl.innerHTML = '';
       store.gallery.forEach((url, idx) => {
@@ -652,7 +710,7 @@
       });
       gCtrl.innerHTML += `<button class="btn-add-item" onclick="addNewGalleryPhoto()">+ Add Photo URL</button>`;
 
-      // Reviews Controls
+      // Reviews
       const rCtrl = document.getElementById('reviews-controls');
       rCtrl.innerHTML = '';
       store.reviews.forEach((r, idx) => {
@@ -665,7 +723,7 @@
         `;
       });
 
-      // FAQ Controls
+      // FAQs
       const fCtrl = document.getElementById('faqs-controls');
       fCtrl.innerHTML = '';
       store.faqs.forEach((f, idx) => {
@@ -679,7 +737,7 @@
       });
     }
 
-    // CRUD
+    // CRUD Handlers
     function addNewBundle() {
       store.bundles.push({ qty: 1, title: "Special Bundle Set", sub: "Limited Holiday Offer", price: "49.99", orig: "99.99", ribbon: "", save: "Save 50%", checkout: "" });
       renderSidebarControls();
@@ -727,9 +785,15 @@
       renderPreview();
     }
 
+    // UI Helpers
     function syncField(id, val) {
       const el = document.getElementById(id);
       if (el) el.innerText = val;
+    }
+    function updateBrand(val) {
+      syncField('brandLogo', val);
+      syncField('footerBrandLogo', val);
+      syncField('footerBrandCopy', val);
     }
     function toggleEl(id, show) {
       const el = document.getElementById(id);
@@ -743,6 +807,7 @@
       else frame.classList.remove('desktop');
     }
 
+    // Output Cleaner
     function generateCleanPage() {
       const liveHTML = document.getElementById('liveFrame').innerHTML;
       return `<!DOCTYPE html>
@@ -755,7 +820,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --brand-accent: #E11D48; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background: #FAFAFA; color: #111827; }
     .store-shell { width: 100%; max-width: 520px; margin: 0 auto; background: #FFF; min-height: 100vh; }
@@ -781,7 +845,7 @@
     async function publishLiveGitHub() {
       let token = localStorage.getItem('gh_studio_pat');
       if (!token) {
-        token = prompt("Enter your GitHub Personal Access Token to publish directly:");
+        token = prompt("Enter your GitHub Personal Access Token to publish live:");
         if (!token) return;
         localStorage.setItem('gh_studio_pat', token);
       }
@@ -804,7 +868,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Live publish from Studio V2',
+            message: 'Live publish with Luxury Footer from Studio V2',
             content: btoa(unescape(encodeURIComponent(cleanHtml))),
             sha: sha
           })
@@ -816,7 +880,7 @@
           throw new Error('Push failed.');
         }
       } catch (err) {
-        alert('GitHub sync failed. Downloading index.html directly instead so you can drag-drop it.');
+        alert('GitHub push failed. Downloading updated index.html instead.');
         downloadIndexHTML();
       }
     }
