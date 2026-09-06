@@ -2,274 +2,496 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AURA™ Visual Page Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title id="docTitle">AURA™ Magnetic Levitation Santa Set | Limited Holiday Edition</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --sidebar-w: 390px;
-      --panel-bg: #090D16;
-      --panel-surface: #141C2E;
-      --panel-border: #23304B;
-      --panel-text: #F8FAFC;
-      --panel-muted: #94A3B8;
-      --brand-accent: #E11D48;
-      --green: #10B981;
-      --danger: #EF4444;
+      --bg: #FAFAFA;
+      --surface: #FFFFFF;
+      --text-main: #111827;
+      --text-muted: #6B7280;
+      --accent: #E11D48;
+      --border: #E5E7EB;
+      --radius: 14px;
       --dark-bg: #000000;
       --dark-surface: #0B0E14;
       --dark-border: rgba(255, 255, 255, 0.08);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { display: flex; height: 100vh; overflow: hidden; background: #030712; color: var(--panel-text); }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      -webkit-tap-highlight-color: transparent; 
+    }
+    
+    body { 
+      background-color: var(--surface); 
+      color: var(--text-main); 
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 75px;
+    }
 
-    /* SIDEBAR */
-    .studio-sidebar {
-      width: var(--sidebar-w);
-      background: var(--panel-bg);
-      border-right: 1px solid var(--panel-border);
+    /* 1. Announcement Bar */
+    .promo-bar { 
+      background: #000000; 
+      color: #FFFFFF; 
+      font-size: 11px; 
+      font-weight: 700; 
+      text-align: center; 
+      padding: 10px 12px; 
+      letter-spacing: 0.3px; 
+    }
+    .timer-span { 
+      color: #FBBF24; 
+      font-weight: 800; 
+      margin-left: 4px; 
+    }
+
+    /* 2. Header */
+    .header { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 18px 24px; 
+      border-bottom: 1px solid var(--border); 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .logo { 
+      font-size: 20px; 
+      font-weight: 800; 
+      letter-spacing: 2px; 
+      text-transform: uppercase; 
+    }
+
+    /* 3. Live Social Proof */
+    .live-proof { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 7px; 
+      padding: 10px 16px; 
+      font-size: 12px; 
+      font-weight: 600; 
+      background: #F0FDF4; 
+      color: #166534; 
+      border-bottom: 1px solid #DCFCE7; 
+    }
+    .pulse-dot { 
+      width: 8px; 
+      height: 8px; 
+      background: #22C55E; 
+      border-radius: 50%; 
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.3); 
+      animation: pulse 1.8s infinite; 
+    }
+    @keyframes pulse { 
+      0% { transform: scale(0.95); opacity: 0.9; } 
+      70% { transform: scale(1.3); opacity: 0; } 
+      100% { transform: scale(0.95); opacity: 0; } 
+    }
+
+    /* Layout Containers */
+    .main-wrapper {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .product-grid {
       display: flex;
       flex-direction: column;
-      height: 100%;
-      flex-shrink: 0;
-      z-index: 50;
+      gap: 24px;
     }
-    .studio-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--panel-border);
+
+    /* 4. Product Gallery */
+    .gallery-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .main-stage {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-height: 520px;
+      background: #FAFAFA;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: #060911;
+      justify-content: center;
+      margin-bottom: 14px;
     }
-    .studio-brand { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; display: flex; align-items: center; gap: 8px; }
-    .studio-brand span { background: var(--brand-accent); color:#FFF; padding: 2px 8px; border-radius: 6px; font-size: 10px; }
-
-    .studio-tabs {
+    .main-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.15s ease-in-out;
+    }
+    .thumbnail-strip {
+      width: 100%;
       display: flex;
-      padding: 8px 10px;
-      gap: 6px;
-      background: #0B111F;
-      border-bottom: 1px solid var(--panel-border);
+      gap: 10px;
       overflow-x: auto;
+      padding-bottom: 4px;
       scrollbar-width: none;
     }
-    .studio-tabs::-webkit-scrollbar { display: none; }
-    .studio-tab-btn {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--panel-muted);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 7px 12px;
-      border-radius: 7px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .studio-tab-btn.active { background: var(--panel-surface); color: #FFF; border-color: var(--panel-border); }
-
-    .studio-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
+    .thumbnail-strip::-webkit-scrollbar {
       display: none;
-      flex-direction: column;
-      gap: 18px;
     }
-    .studio-content.active-tab-content { display: flex; }
-
-    .field-group { display: flex; flex-direction: column; gap: 6px; }
-    .field-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--panel-muted); }
-    .field-input, .field-textarea {
-      background: var(--panel-surface);
-      border: 1px solid var(--panel-border);
-      border-radius: 8px;
-      padding: 10px 12px;
-      color: #FFF;
-      font-size: 13px;
-      outline: none;
-    }
-    .field-input:focus, .field-textarea:focus { border-color: #38BDF8; }
-    .field-textarea { resize: vertical; min-height: 65px; }
-
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 11px 14px;
-      background: var(--panel-surface);
+    .thumb-card {
+      flex: 0 0 76px;
+      height: 76px;
       border-radius: 10px;
-      border: 1px solid var(--panel-border);
-    }
-    .toggle-row span { font-size: 12.5px; font-weight: 600; }
-    .switch { position: relative; width: 38px; height: 22px; display: inline-block; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 20px; }
-    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
-    input:checked + .slider { background-color: var(--green); }
-    input:checked + .slider:before { transform: translateX(16px); }
-
-    .card-editor {
-      background: var(--panel-surface);
-      border: 1px solid var(--panel-border);
-      border-radius: 10px;
-      padding: 14px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .btn-delete-card {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: var(--danger);
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .btn-delete-card:hover { background: var(--danger); color: #FFF; }
-    .btn-add-item {
-      background: transparent;
-      border: 1px dashed #38BDF8;
-      color: #38BDF8;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .studio-footer {
-      padding: 16px 20px;
-      border-top: 1px solid var(--panel-border);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      background: #060911;
-    }
-    .btn-publish-gh {
-      width: 100%;
-      padding: 12px;
-      background: #2563EB;
-      color: #FFF;
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .btn-publish-gh:hover { background: #1D4ED8; }
-    .btn-save-dl {
-      width: 100%;
-      padding: 9px;
-      background: transparent;
-      border: 1px solid var(--panel-border);
-      color: var(--panel-muted);
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* CANVAS */
-    .studio-canvas {
-      flex: 1;
-      background: #030712;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .canvas-topbar {
-      height: 52px;
-      background: #090D16;
-      border-bottom: 1px solid var(--panel-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-    }
-    .device-switcher {
-      display: flex;
-      background: var(--panel-surface);
-      border-radius: 8px;
-      padding: 3px;
-      gap: 4px;
-    }
-    .device-btn {
-      background: transparent;
-      border: none;
-      color: var(--panel-muted);
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .device-btn.active { background: #334155; color: #FFF; }
-    .canvas-viewport {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      justify-content: center;
-      padding: 30px 20px;
-    }
-    .device-frame {
-      width: 100%;
-      max-width: 480px;
-      background: #FFFFFF;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-      border-radius: 20px;
-      overflow-x: hidden;
-      color: #111827;
-      transition: max-width 0.3s ease;
-      min-height: 850px;
-    }
-    .device-frame.desktop { max-width: 1100px; border-radius: 12px; }
-
-    [contenteditable="true"] {
-      outline: 1px dashed transparent;
-      transition: outline 0.15s, background 0.15s;
-      border-radius: 4px;
-      padding: 1px 3px;
-    }
-    [contenteditable="true"]:hover {
-      outline: 1px dashed #2563EB;
-      background: rgba(37, 99, 235, 0.05);
-      cursor: text;
-    }
-    [contenteditable="true"]:focus {
-      outline: 2px solid #2563EB;
+      border: 2px solid var(--border);
       background: #FFF;
+      overflow: hidden;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.15s ease;
+    }
+    .thumb-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .thumb-card.active {
+      border-color: #111827;
+      box-shadow: 0 0 0 1px #111827;
+      transform: scale(0.96);
     }
 
-    /* FULL LUXURY FOOTER CSS */
+    /* 5. Product Details */
+    .details { width: 100%; }
+    .reviews-count { 
+      font-size: 13px; 
+      font-weight: 700; 
+      color: #F59E0B; 
+      margin-bottom: 6px; 
+      display: flex; 
+      align-items: center; 
+      gap: 4px; 
+    }
+    .prod-title { 
+      font-size: 24px; 
+      font-weight: 800; 
+      line-height: 1.3; 
+      margin-bottom: 12px; 
+    }
+    .price-row { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      margin-bottom: 16px; 
+    }
+    .price-current { 
+      font-size: 30px; 
+      font-weight: 800; 
+      color: var(--accent); 
+    }
+    .price-original { 
+      font-size: 18px; 
+      color: var(--text-muted); 
+      text-decoration: line-through; 
+    }
+    .save-badge { 
+      background: #FEE2E2; 
+      color: var(--accent); 
+      font-size: 11px; 
+      font-weight: 800; 
+      padding: 4px 9px; 
+      border-radius: 20px; 
+      text-transform: uppercase; 
+    }
+
+    .urgency-box { 
+      background: #FFFBEB; 
+      border: 1px solid #FEF3C7; 
+      padding: 12px; 
+      border-radius: 10px; 
+      margin-bottom: 20px; 
+    }
+    .urgency-txt { 
+      font-size: 13px; 
+      font-weight: 700; 
+      color: #92400E; 
+      display: flex; 
+      justify-content: space-between; 
+      margin-bottom: 6px; 
+    }
+    .progress-bar-bg { 
+      width: 100%; 
+      height: 7px; 
+      background: #FDE68A; 
+      border-radius: 10px; 
+      overflow: hidden; 
+    }
+    .progress-bar-fill { 
+      width: 86%; 
+      height: 100%; 
+      background: #D97706; 
+      border-radius: 10px; 
+    }
+
+    /* Bundles */
+    .bundle-section {
+      margin-bottom: 20px;
+    }
+    .bundle-header-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #374151;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .bundle-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .bundle-card {
+      position: relative;
+      background: #FFFFFF;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .bundle-card:hover { border-color: #9CA3AF; }
+    .bundle-card.selected {
+      border-color: #111827;
+      background: #FAFAFA;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+    .bundle-card-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .bundle-radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #D1D5DB;
+      position: relative;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .bundle-card.selected .bundle-radio {
+      border-color: #111827;
+      background: #111827;
+      box-shadow: inset 0 0 0 3px #FFFFFF;
+    }
+    .bundle-text-main {
+      font-size: 14px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.3;
+    }
+    .bundle-text-sub {
+      font-size: 12px;
+      font-weight: 600;
+      color: #059669;
+    }
+    .bundle-card-right { text-align: right; }
+    .bundle-price-total {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
+    }
+    .bundle-price-each {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .bundle-ribbon {
+      position: absolute;
+      top: -9px;
+      right: 14px;
+      background: #111827;
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .bundle-ribbon.popular { background: var(--accent); color: #FFFFFF; }
+
+    .buy-button-wrapper { 
+      margin-bottom: 20px; 
+      text-align: center; 
+    }
+    .fallback-btn { 
+      width: 100%; 
+      padding: 18px; 
+      background: #111827; 
+      color: #FFFFFF; 
+      border-radius: 12px; 
+      font-size: 15px; 
+      font-weight: 800; 
+      border: none; 
+      cursor: pointer; 
+      letter-spacing: 0.4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12); 
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .fallback-btn:hover { background: #000000; transform: translateY(-1px); }
+
+    .bullets-card { 
+      background: #F9FAFB; 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      padding: 16px; 
+      margin-bottom: 20px; 
+      font-size: 14px; 
+      font-weight: 600; 
+      line-height: 1.9; 
+    }
+    .bullets-card span { 
+      color: #059669; 
+      font-weight: 800; 
+      margin-right: 6px; 
+    }
+
+    /* 6. Reviews Section */
+    .reviews-box { 
+      width: 100%; 
+      max-width: 1180px; 
+      margin: 30px auto 0; 
+      padding: 24px 16px; 
+      border-top: 1px solid var(--border); 
+    }
+    .reviews-heading { 
+      font-size: 18px; 
+      font-weight: 800; 
+      margin-bottom: 18px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      text-align: center; 
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .review-item { 
+      background: #F9FAFB; 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      padding: 16px; 
+      font-size: 13px; 
+      line-height: 1.6;
+    }
+    .review-user { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 6px; 
+      font-weight: 700; 
+    }
+    .stars { color: #F59E0B; margin-bottom: 6px; font-size: 12px; }
+    .verified-chip { font-size: 11px; color: #059669; font-weight: 700; }
+
+    /* 7. FAQ Section */
+    .faq-section {
+      width: 100%;
+      max-width: 820px;
+      margin: 40px auto 60px;
+      padding: 0 20px;
+    }
+    .faq-heading {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 18px 4px;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .faq-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .faq-icon { font-size: 14px; color: #374151; }
+    .faq-arrow {
+      font-size: 12px;
+      color: #6B7280;
+      transition: transform 0.25s ease;
+    }
+    .faq-item.active .faq-arrow { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      font-size: 14px;
+      color: #4B5563;
+      line-height: 1.6;
+      padding: 0 4px 0 28px;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 160px;
+      padding-bottom: 16px;
+    }
+
+    /* 8. Luxury Pure Black Footer */
     .luxury-footer { 
       background: var(--dark-bg); 
       color: #94A3B8; 
-      padding: 50px 20px 32px; 
+      padding: 60px 20px 32px; 
       font-size: 13px; 
       border-top: 1px solid var(--dark-border);
-      margin-top: 40px;
+      margin-top: 60px;
     }
-    .footer-shell { max-width: 1080px; margin: 0 auto; }
+    .footer-shell {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
     .trust-strip {
       display: grid;
       grid-template-columns: 1fr;
@@ -277,30 +499,44 @@
       background: var(--dark-surface);
       border: 1px solid var(--dark-border);
       border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 40px;
+      padding: 20px;
+      margin-bottom: 48px;
     }
-    .trust-strip-item { display: flex; align-items: center; gap: 14px; padding: 4px 6px; }
+    .trust-strip-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 12px;
+    }
     .trust-ico {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
+      font-size: 18px;
       flex-shrink: 0;
     }
-    .trust-meta h4 { color: #FFFFFF; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-    .trust-meta p { color: #64748B; font-size: 11.5px; line-height: 1.4; }
+    .trust-meta h4 {
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .trust-meta p {
+      color: #64748B;
+      font-size: 11.5px;
+      line-height: 1.4;
+    }
 
     .footer-main-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 36px;
-      padding-bottom: 36px;
+      gap: 40px;
+      padding-bottom: 45px;
       border-bottom: 1px solid var(--dark-border);
     }
     .brand-col h3 {
@@ -311,7 +547,14 @@
       margin-bottom: 10px;
       text-transform: uppercase;
     }
-    .brand-col p { color: #94A3B8; font-size: 13px; line-height: 1.6; max-width: 380px; margin-bottom: 20px; }
+    .brand-col p {
+      color: #94A3B8;
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 380px;
+      margin-bottom: 20px;
+    }
+
     .newsletter-form {
       display: flex;
       align-items: center;
@@ -319,706 +562,641 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 12px;
       padding: 5px 6px 5px 16px;
-      max-width: 400px;
+      max-width: 420px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .newsletter-input { flex: 1; background: transparent; border: none; color: #FFFFFF; font-size: 13px; outline: none; }
+    .newsletter-form:focus-within {
+      border-color: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+    .newsletter-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-size: 13.5px;
+      outline: none;
+    }
+    .newsletter-input::placeholder { color: #64748B; }
     .newsletter-btn {
       background: #FFFFFF;
       color: #07090E;
       border: none;
-      padding: 9px 16px;
+      padding: 10px 18px;
       border-radius: 9px;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 800;
       cursor: pointer;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+    .newsletter-btn:hover { background: #E2E8F0; }
+
+    .nav-columns-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+    .nav-col h5 {
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .nav-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .nav-col a {
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.15s ease, padding-left 0.15s ease;
+    }
+    .nav-col a:hover {
+      color: #FFFFFF;
+      padding-left: 3px;
     }
 
-    .nav-columns-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-    .nav-col h5 { color: #FFFFFF; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
-    .nav-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .nav-col a { color: #94A3B8; text-decoration: none; font-size: 13px; }
-
+    /* Sub-Footer */
     .sub-footer {
       display: flex;
       flex-direction: column-reverse;
       align-items: center;
       gap: 16px;
-      padding-top: 26px;
+      padding-top: 28px;
     }
-    .copyright-line { color: #64748B; font-size: 12px; text-align: center; }
-    .clean-badge-img { height: 26px; width: auto; max-width: 300px; display: block; object-fit: contain; }
+    .copyright-line {
+      color: #64748B;
+      font-size: 12px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .clean-badge-img {
+      height: 26px;
+      width: auto;
+      max-width: 320px;
+      display: block;
+      object-fit: contain;
+    }
 
+    /* Mobile Sticky Bar */
+    .sticky-mobile-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    }
+    .sticky-price {
+      display: flex;
+      flex-direction: column;
+    }
+    .sticky-price .now {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .sticky-price .was {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+    .sticky-btn {
+      background: #111827;
+      color: #FFF;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* Desktop Media Query */
     @media (min-width: 860px) {
-      .trust-strip { grid-template-columns: repeat(3, 1fr); padding: 14px 20px; gap: 20px; }
-      .footer-main-grid { grid-template-columns: 1.3fr 0.7fr; gap: 60px; }
-      .sub-footer { flex-direction: row; justify-content: space-between; }
+      body { padding-bottom: 0; }
+      .sticky-mobile-bar { display: none; }
+      .product-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .gallery-container { position: sticky; top: 90px; }
+      .prod-title { font-size: 30px; }
+      .price-current { font-size: 34px; }
+      .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+      }
+      .trust-strip {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 14px 24px;
+        gap: 20px;
+      }
+      .footer-main-grid {
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 80px;
+        align-items: start;
+      }
+      .sub-footer {
+        flex-direction: row;
+        justify-content: space-between;
+      }
       .copyright-line { text-align: left; }
     }
   </style>
 </head>
 <body>
 
-  <!-- LEFT CONTROL SIDEBAR -->
-  <aside class="studio-sidebar">
-    <div class="studio-header">
-      <div class="studio-brand">AURA <span>STUDIO</span></div>
-      <div style="font-size: 11px; color: var(--green); font-weight: 700;">● LIVE SYNC</div>
-    </div>
+  <!-- Top Announcement Bar -->
+  <div class="promo-bar" id="promoBar">
+    <span id="promoText">✨ 50% OFF FLASH SALE ENDING IN:</span> <span class="timer-span" id="timer">02:14:32</span>
+  </div>
 
-    <!-- TABS -->
-    <div class="studio-tabs">
-      <button class="studio-tab-btn active" onclick="switchTab('tab-general', this)">General</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-bundles', this)">Bundles</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-gallery', this)">Images</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-reviews', this)">Reviews</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-faqs', this)">FAQs</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-footer', this)">Footer</button>
-    </div>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo" id="brandLogo">AURA GIFTS</div>
+  </div>
 
-    <!-- 1. GENERAL TAB -->
-    <div class="studio-content active-tab-content" id="tab-general">
-      <div class="field-group">
-        <label class="field-label">Brand Name</label>
-        <input type="text" class="field-input" id="inp-brand" value="AURA GIFTS" oninput="updateBrand(this.value)">
+  <!-- Live Proof -->
+  <div class="live-proof">
+    <div class="pulse-dot"></div>
+    <span id="liveProofText">23 shoppers viewing right now | 148 orders placed today</span>
+  </div>
+
+  <!-- Main Product Showcase -->
+  <div class="main-wrapper">
+    <div class="product-grid">
+      
+      <!-- Gallery -->
+      <div class="gallery-container">
+        <div class="main-stage">
+          <img id="mainDisplay" src="https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80" alt="Product Image">
+        </div>
+        <div class="thumbnail-strip" id="thumbnailStrip"></div>
       </div>
 
-      <div class="field-group">
-        <label class="field-label">Announcement Promo Text</label>
-        <input type="text" class="field-input" id="inp-promo" value="✨ 50% OFF FLASH SALE ENDING IN:" oninput="syncField('promoText', this.value)">
-      </div>
-
-      <div class="toggle-row">
-        <span>Show Announcement Bar</span>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleEl('promoBar', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="toggle-row">
-        <span>Show Live Shoppers Proof</span>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleEl('liveProofSection', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="toggle-row">
-        <span>Show Urgency Stock Bar</span>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleEl('urgencyBox', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">Remaining Stock Count</label>
-        <input type="number" class="field-input" value="5" oninput="syncField('stockCount', 'Only ' + this.value + ' Units Remaining!')">
-      </div>
-    </div>
-
-    <!-- 2. BUNDLES TAB -->
-    <div class="studio-content" id="tab-bundles">
-      <div class="toggle-row">
-        <span>Show Bundles Section</span>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleEl('bundleSection', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div id="bundle-list-controls" style="display:flex; flex-direction:column; gap:12px;"></div>
-      <button class="btn-add-item" onclick="addNewBundle()">+ Add New Bundle Tier</button>
-    </div>
-
-    <!-- 3. GALLERY TAB -->
-    <div class="studio-content" id="tab-gallery">
-      <div style="font-size: 12px; color: var(--panel-muted); margin-bottom: 4px;">Update product photos (URL):</div>
-      <div id="gallery-controls" style="display:flex; flex-direction:column; gap:12px;"></div>
-    </div>
-
-    <!-- 4. REVIEWS TAB -->
-    <div class="studio-content" id="tab-reviews">
-      <div class="toggle-row">
-        <span>Show Reviews Section</span>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleEl('reviewsSection', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div id="reviews-controls" style="display:flex; flex-direction:column; gap:12px;"></div>
-      <button class="btn-add-item" onclick="addNewReview()">+ Add Customer Review</button>
-    </div>
-
-    <!-- 5. FAQS TAB -->
-    <div class="studio-content" id="tab-faqs">
-      <div class="toggle-row">
-        <span>Show FAQs Section</span>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleEl('faqSection', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div id="faqs-controls" style="display:flex; flex-direction:column; gap:12px;"></div>
-      <button class="btn-add-item" onclick="addNewFaq()">+ Add FAQ Question</button>
-    </div>
-
-    <!-- 6. FOOTER TAB -->
-    <div class="studio-content" id="tab-footer">
-      <div class="toggle-row">
-        <span>Show Luxury Footer</span>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleEl('luxuryFooterSection', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Brand Bio Description</label>
-        <textarea class="field-textarea" oninput="syncField('footerBio', this.value)">Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.</textarea>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Trust Badge Image File / URL</label>
-        <input type="text" class="field-input" value="trust-badge.png" oninput="document.getElementById('trustBadgeImg').src = this.value;">
-      </div>
-    </div>
-
-    <!-- FOOTER ACTIONS -->
-    <div class="studio-footer">
-      <button class="btn-publish-gh" onclick="publishLiveGitHub()">
-        🚀 1-Click Publish Live
-      </button>
-      <button class="btn-save-dl" onclick="downloadIndexHTML()">
-        📥 Download Updated index.html
-      </button>
-    </div>
-  </aside>
-
-  <!-- RIGHT LIVE EDITABLE CANVAS -->
-  <main class="studio-canvas">
-    <div class="canvas-topbar">
-      <div class="device-switcher">
-        <button class="device-btn active" onclick="setDevice('mobile', this)">📱 Mobile View</button>
-        <button class="device-btn" onclick="setDevice('desktop', this)">💻 Desktop View</button>
-      </div>
-      <div style="font-size: 12px; color: var(--panel-muted);">
-        ✨ <b>Click any text</b> to edit directly
-      </div>
-    </div>
-
-    <div class="canvas-viewport">
-      <div class="device-frame" id="liveFrame">
-
-        <!-- Top Announcement Bar -->
-        <div id="promoBar" style="background:#000; color:#FFF; font-size:11px; font-weight:700; text-align:center; padding:10px;">
-          <span id="promoText" contenteditable="true">✨ 50% OFF FLASH SALE ENDING IN:</span>
-          <span style="color:#FBBF24; font-weight:800; margin-left:4px;">02:14:32</span>
+      <!-- Details & Checkout -->
+      <div class="details">
+        <div class="reviews-count" id="reviewSummary">★★★★★ 4.9/5 (1,420+ Verified Reviews)</div>
+        <h1 class="prod-title" id="prodTitle">Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)</h1>
+        
+        <div class="price-row">
+          <span class="price-current" id="displayCurrentPrice">$34.99</span>
+          <span class="price-original" id="displayOriginalPrice">$69.99</span>
+          <span class="save-badge" id="displaySaveBadge">Save 50%</span>
         </div>
 
-        <!-- Header -->
-        <div style="display:flex; align-items:center; justify-content:center; padding:16px; border-bottom:1px solid #E5E7EB; background:#FFF;">
-          <div id="brandLogo" contenteditable="true" style="font-size:18px; font-weight:800; letter-spacing:2px; text-transform:uppercase;">AURA GIFTS</div>
+        <div class="urgency-box">
+          <div class="urgency-txt">
+            <span>🔥 High Holiday Demand</span>
+            <span id="stockRemainingText">Only 5 Units Remaining!</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill"></div>
+          </div>
         </div>
 
-        <!-- Live Proof -->
-        <div id="liveProofSection" style="display:flex; align-items:center; justify-content:center; gap:7px; padding:9px; font-size:12px; font-weight:600; background:#F0FDF4; color:#166534; border-bottom:1px solid #DCFCE7;">
-          <div style="width:8px; height:8px; background:#22C55E; border-radius:50%;"></div>
-          <span id="liveProofText" contenteditable="true">23 shoppers viewing right now | 148 orders placed today</span>
+        <!-- AOV Bundle Selector -->
+        <div class="bundle-section" id="bundleSection">
+          <div class="bundle-header-label">
+            <span>Select Your Bundle</span>
+            <span style="color:#059669;">Free Tracked Shipping</span>
+          </div>
+          <div class="bundle-group" id="bundleContainer"></div>
         </div>
 
-        <!-- Main Product Area -->
-        <div style="padding:20px 16px;">
-          <!-- Gallery -->
-          <div style="margin-bottom:18px;">
-            <div style="width:100%; aspect-ratio:1/1; background:#FAFAFA; border-radius:14px; overflow:hidden; border:1px solid #E5E7EB; margin-bottom:10px;">
-              <img id="mainImg" src="https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80" style="width:100%; height:100%; object-fit:cover;">
-            </div>
-            <div id="thumbStrip" style="display:flex; gap:8px; overflow-x:auto;"></div>
-          </div>
-
-          <!-- Product Details -->
-          <div style="font-size:13px; font-weight:700; color:#F59E0B; margin-bottom:6px;">★★★★★ 4.9/5 (1,420+ Verified Reviews)</div>
-          <h1 id="prodTitle" contenteditable="true" style="font-size:22px; font-weight:800; line-height:1.3; margin-bottom:12px;">Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)</h1>
-
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-            <span id="priceCurrent" style="font-size:28px; font-weight:800; color:var(--brand-accent);">$34.99</span>
-            <span id="priceOriginal" style="font-size:16px; color:#6B7280; text-decoration:line-through;">$69.99</span>
-            <span id="badgeSave" style="background:#FEE2E2; color:var(--brand-accent); font-size:11px; font-weight:800; padding:4px 8px; border-radius:20px;">SAVE 50%</span>
-          </div>
-
-          <!-- Urgency -->
-          <div id="urgencyBox" style="background:#FFFBEB; border:1px solid #FEF3C7; padding:12px; border-radius:10px; margin-bottom:20px;">
-            <div style="font-size:13px; font-weight:700; color:#92400E; display:flex; justify-content:space-between; margin-bottom:6px;">
-              <span>🔥 High Holiday Demand</span>
-              <span id="stockCount" contenteditable="true">Only 5 Units Remaining!</span>
-            </div>
-            <div style="width:100%; height:6px; background:#FDE68A; border-radius:10px; overflow:hidden;">
-              <div style="width:86%; height:100%; background:#D97706;"></div>
-            </div>
-          </div>
-
-          <!-- Bundles Selector -->
-          <div id="bundleSection" style="margin-bottom:20px;">
-            <div style="font-size:11.5px; font-weight:800; color:#4B5563; text-transform:uppercase; margin-bottom:10px; display:flex; justify-content:space-between;">
-              <span>Select Your Bundle</span>
-              <span style="color:#059669;">Free Tracked Delivery</span>
-            </div>
-            <div id="bundleContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
-          </div>
-
-          <!-- Buy CTA Button -->
-          <button id="ctaBtn" contenteditable="true" style="width:100%; padding:18px; background:#111827; color:#FFF; border-radius:12px; font-size:15px; font-weight:800; border:none; margin-bottom:20px; cursor:pointer;">
+        <!-- Buy Button -->
+        <div class="buy-button-wrapper" id="shopify-button-container">
+          <button class="fallback-btn" id="ctaButton" onclick="handleCheckout()">
             CLAIM OFFER & FREE DELIVERY
           </button>
-
-          <!-- Feature Bullets -->
-          <div id="bulletsBox" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:16px; font-size:13px; font-weight:600; line-height:1.9; margin-bottom:30px;">
-            <div><span style="color:#059669;">✔</span> Real Magnetic Levitation (Floats Smoothly)</div>
-            <div><span style="color:#059669;">✔</span> Ambient Warm Night Light for Cozy Spaces</div>
-            <div><span style="color:#059669;">✔</span> Includes Luxury Gift Box & USB-C Cable</div>
-            <div><span style="color:#059669;">✔</span> 30-Day Risk-Free Money-Back Guarantee</div>
-          </div>
-
-          <!-- Reviews Section -->
-          <div id="reviewsSection" style="border-top:1px solid #E5E7EB; padding-top:24px; margin-bottom:30px;">
-            <h3 style="font-size:16px; font-weight:800; text-align:center; text-transform:uppercase; margin-bottom:16px;">Customer Reviews & Unboxings</h3>
-            <div id="reviewsList" style="display:flex; flex-direction:column; gap:12px;"></div>
-          </div>
-
-          <!-- FAQ Section -->
-          <div id="faqSection" style="border-top:1px solid #E5E7EB; padding-top:24px;">
-            <h3 style="font-size:18px; font-weight:800; text-align:center; margin-bottom:16px;">FREQUENTLY ASKED QUESTIONS</h3>
-            <div id="faqList" style="display:flex; flex-direction:column;"></div>
-          </div>
         </div>
 
-        <!-- AUTHENTIC LUXURY BLACK FOOTER (PRECISE DTC REPLICA) -->
-        <footer class="luxury-footer" id="luxuryFooterSection">
-          <div class="footer-shell">
-            
-            <div class="trust-strip">
-              <div class="trust-strip-item">
-                <div class="trust-ico">🛡️</div>
-                <div class="trust-meta">
-                  <h4>30-Day Risk-Free Trial</h4>
-                  <p>100% full money-back guarantee.</p>
-                </div>
-              </div>
-              <div class="trust-strip-item">
-                <div class="trust-ico">✈️</div>
-                <div class="trust-meta">
-                  <h4>Tracked Global Shipping</h4>
-                  <p>Direct tracking links with live delivery alerts.</p>
-                </div>
-              </div>
-              <div class="trust-strip-item">
-                <div class="trust-ico">🔒</div>
-                <div class="trust-meta">
-                  <h4>256-Bit Encrypted Vault</h4>
-                  <p>Bank-grade certified checkout gateway.</p>
-                </div>
-              </div>
-            </div>
+        <!-- Feature Bullets -->
+        <div class="bullets-card" id="bulletsCard"></div>
+      </div>
 
-            <div class="footer-main-grid">
-              <div class="brand-col">
-                <h3 id="footerBrandLogo" contenteditable="true">AURA GIFTS</h3>
-                <p id="footerBio" contenteditable="true">
-                  Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.
-                </p>
-                <div class="newsletter-form">
-                  <input type="email" class="newsletter-input" placeholder="Enter your email address...">
-                  <button class="newsletter-btn">Get 10% Off</button>
-                </div>
-              </div>
+    </div>
+  </div>
 
-              <div class="nav-columns-group">
-                <div class="nav-col">
-                  <h5>Customer Care</h5>
-                  <ul>
-                    <li><a href="#">Order Tracking</a></li>
-                    <li><a href="#">Shipping FAQ</a></li>
-                    <li><a href="#">Returns & Refunds</a></li>
-                    <li><a href="#">Contact Support</a></li>
-                  </ul>
-                </div>
-                <div class="nav-col">
-                  <h5>Legal & Policies</h5>
-                  <ul>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Warranty Guide</a></li>
-                    <li><a href="#">Merchant Security</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+  <!-- Reviews -->
+  <div class="reviews-box">
+    <div class="reviews-heading">Customer Reviews & TikTok Unboxings</div>
+    <div class="reviews-grid" id="reviewsGrid"></div>
+  </div>
 
-            <div class="sub-footer">
-              <div class="copyright-line">
-                © 2026 <span id="footerBrandCopy">AURA GIFTS</span> Inc. All rights reserved. Powered by Shopify Checkout.
-              </div>
-              <img id="trustBadgeImg" src="trust-badge.png" alt="Guaranteed Safe Checkout" class="clean-badge-img">
-            </div>
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <h2 class="faq-heading">FAQ'S</h2>
+    <div class="faq-list" id="faqList"></div>
+  </section>
 
+  <!-- LUXURY DTC BLACK FOOTER -->
+  <footer class="luxury-footer">
+    <div class="footer-shell">
+      <div class="trust-strip">
+        <div class="trust-strip-item">
+          <div class="trust-ico">🛡️</div>
+          <div class="trust-meta">
+            <h4>30-Day Risk-Free Trial</h4>
+            <p>100% full money-back guarantee.</p>
           </div>
-        </footer>
+        </div>
+        <div class="trust-strip-item">
+          <div class="trust-ico">✈️</div>
+          <div class="trust-meta">
+            <h4>Tracked Global Shipping</h4>
+            <p>Direct tracking links with live delivery alerts.</p>
+          </div>
+        </div>
+        <div class="trust-strip-item">
+          <div class="trust-ico">🔒</div>
+          <div class="trust-meta">
+            <h4>256-Bit Encrypted Vault</h4>
+            <p>Bank-grade certified checkout gateway.</p>
+          </div>
+        </div>
+      </div>
 
+      <div class="footer-main-grid">
+        <div class="brand-col">
+          <h3 id="footerBrandLogo">AURA GIFTS</h3>
+          <p>Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to VIP drops!');">
+            <input type="email" class="newsletter-input" placeholder="Enter your email address..." required>
+            <button type="submit" class="newsletter-btn">Get 10% Off</button>
+          </form>
+        </div>
+
+        <div class="nav-columns-group">
+          <div class="nav-col">
+            <h5>Customer Care</h5>
+            <ul>
+              <li><a href="#">Order Tracking</a></li>
+              <li><a href="#">Shipping FAQ</a></li>
+              <li><a href="#">Returns & Refunds</a></li>
+              <li><a href="#">Contact Support</a></li>
+            </ul>
+          </div>
+          <div class="nav-col">
+            <h5>Legal & Policies</h5>
+            <ul>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Warranty Guide</a></li>
+              <li><a href="#">Merchant Security</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-footer">
+        <div class="copyright-line" id="copyrightLine">
+          © 2026 AURA Gifts Inc. All rights reserved. Powered by Shopify Checkout.
+        </div>
+        <img src="trust-badge.png" alt="Guaranteed Safe Checkout" class="clean-badge-img">
       </div>
     </div>
-  </main>
+  </footer>
 
+  <!-- Mobile Floating Sticky CTA -->
+  <div class="sticky-mobile-bar" id="stickyBar">
+    <div class="sticky-price">
+      <span class="now" id="stickyNowPrice">$34.99</span>
+      <span class="was" id="stickyWasPrice">$69.99</span>
+    </div>
+    <button class="sticky-btn" onclick="handleCheckout()">CLAIM 50% OFF</button>
+  </div>
+
+  <!-- DYNAMIC ENGINE WITH BUILT-IN FALLBACKS -->
   <script>
-    let activeBundleIdx = 1;
-    const store = {
-      bundles: [
-        { qty: 1, title: "Buy 1 Set (Holiday Starter)", sub: "Standard Gift Packaging", price: "34.99", orig: "69.99", ribbon: "", save: "Save 50%", checkout: "" },
-        { qty: 2, title: "Buy 2 Sets (Family & Gifting)", sub: "Free Gift Bag + Save $10", price: "59.99", orig: "139.98", ribbon: "MOST POPULAR", save: "Save 57%", checkout: "" },
-        { qty: 3, title: "Buy 3 Sets (Ultimate Home Decor)", sub: "Free VIP Express Delivery", price: "79.99", orig: "209.97", ribbon: "BEST VALUE", save: "Save 62%", checkout: "" }
+    let activeBundleIndex = 1;
+    let liveData = null;
+
+    // Hardcoded Built-in Defaults (Site loads perfectly even without settings.json)
+    const defaultData = {
+      logo_text: "AURA GIFTS",
+      promo_text: "✨ 50% OFF FLASH SALE ENDING IN:",
+      live_proof_text: "23 shoppers viewing right now | 148 orders placed today",
+      product_title: "Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)",
+      review_summary: "★★★★★ 4.9/5 (1,420+ Verified Reviews)",
+      price_current: "34.99",
+      price_original: "69.99",
+      stock_remaining: 5,
+      cta_text: "CLAIM OFFER & FREE DELIVERY",
+      checkout_url: "#",
+      gallery_images: [
+        { image_url: "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80" },
+        { image_url: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80" },
+        { image_url: "https://images.unsplash.com/photo-1513297887119-d46091b24bfa?auto=format&fit=crop&w=800&q=80" },
+        { image_url: "https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?auto=format&fit=crop&w=800&q=80" },
+        { image_url: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" }
       ],
-      gallery: [
-        "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1513297887119-d46091b24bfa?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?auto=format&fit=crop&w=800&q=80"
+      feature_bullets: [
+        { text: "Real Magnetic Levitation (Floats & Rotates Smoothly)" },
+        { text: "Ambient Warm Night Light for Cozy Spaces" },
+        { text: "Includes Luxury Gift Box & USB-C Cable" },
+        { text: "30-Day Risk-Free Money-Back Guarantee" }
+      ],
+      bundles: [
+        {
+          qty: 1,
+          title: "Buy 1 Set (Holiday Starter)",
+          sub: "Standard Gift Packaging Included",
+          total_price: 34.99,
+          orig_price: 69.99,
+          save_text: "Save 50%",
+          ribbon: "",
+          checkout_url: "#"
+        },
+        {
+          qty: 2,
+          title: "Buy 2 Sets (Family & Gifting)",
+          sub: "Free Luxury Gift Bag + Save Extra $10",
+          total_price: 59.99,
+          orig_price: 139.98,
+          save_text: "Save 57%",
+          ribbon: "MOST POPULAR",
+          checkout_url: "#"
+        },
+        {
+          qty: 3,
+          title: "Buy 3 Sets (Ultimate Home Decor)",
+          sub: "Free VIP Express Tracked Delivery",
+          total_price: 79.99,
+          orig_price: 209.97,
+          save_text: "Save 62%",
+          ribbon: "BEST VALUE",
+          checkout_url: "#"
+        }
       ],
       reviews: [
-        { user: "Samantha R. 🇺🇸", text: "Saw this on TikTok and took a chance. It literally floats in mid-air!" },
-        { user: "David M. 🇬🇧", text: "Arrived in 6 days. Rotation is super smooth and quiet." },
-        { user: "Chloe T. 🇦🇺", text: "Bought as an early Christmas gift for mom and she loved it!" }
+        {
+          user: "Samantha R. 🇺🇸",
+          comment: "Saw this on my TikTok FYP and took a chance. It literally floats in mid-air with zero wires touching it! Everyone who walks into our living room stops and asks about it."
+        },
+        {
+          user: "David M. 🇬🇧",
+          comment: "Arrived in 6 days to the UK. Packaging is high quality, perfect for gifting. The rotation is super quiet and therapeutic."
+        },
+        {
+          user: "Chloe T. 🇦🇺",
+          comment: "The warm glow at night is gorgeous. Bought this as an early Christmas gift for my mom and she literally teared up. Setup took less than a minute!"
+        },
+        {
+          user: "Marcus L. 🇨🇦",
+          comment: "Was worried it would be gimmicky or loud, but the magnet base is heavy, solid, and holds the balance effortlessly. Top tier customer care team too."
+        }
       ],
       faqs: [
-        { q: "Is it hard to set up?", a: "Not at all! Hold it 1-2 cm above center until the magnet catches, then gently release." },
-        { q: "Does it make any motor noise?", a: "Zero noise. Completely silent levitation and rotation." }
+        {
+          question: "Is it hard to set up?",
+          answer: "Not at all! Plug in the magnetic base, hold the sleigh gently about 1–2 cm directly above the center until you feel the magnetic field lock in, and release gently. It balances in under 30 seconds."
+        },
+        {
+          question: "Does it make any noise while floating?",
+          answer: "No, the levitation and smooth 360-degree rotation operate with zero friction and zero motor hum. It is completely silent."
+        },
+        {
+          question: "Does it need batteries?",
+          answer: "No batteries needed. It powers continuously via the included universal USB-C cable and wall adapter, keeping both the float and warm night light active."
+        },
+        {
+          question: "What if it arrives damaged or I don’t like it?",
+          answer: "Every order is backed by our 30-Day Risk-Free Money-Back Guarantee. If anything arrives damaged or you are unsatisfied, contact our support team for an immediate replacement or full refund."
+        }
       ]
     };
 
-    function switchTab(tabId, btnElement) {
-      document.querySelectorAll('.studio-content').forEach(el => el.classList.remove('active-tab-content'));
-      document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active'));
-      const target = document.getElementById(tabId);
-      if (target) target.classList.add('active-tab-content');
-      if (btnElement) btnElement.classList.add('active');
-    }
+    async function initPage() {
+      // 1. Render immediate fallback content first
+      renderDynamicPage(defaultData);
 
-    function renderPreview() {
-      // Bundles
-      const bContainer = document.getElementById('bundleContainer');
-      bContainer.innerHTML = '';
-      store.bundles.forEach((b, idx) => {
-        const isSel = idx === activeBundleIdx;
-        const ribbonEl = b.ribbon ? `<span style="position:absolute; top:-9px; right:14px; background:${b.ribbon.includes('POPULAR') ? 'var(--brand-accent)' : '#111827'}; color:#FFF; font-size:10px; font-weight:800; padding:2px 8px; border-radius:12px;">${b.ribbon}</span>` : '';
-        
-        bContainer.innerHTML += `
-          <div onclick="selectBundle(${idx})" style="border:${isSel ? '2px solid #111' : '2px solid #E5E7EB'}; background:${isSel ? '#FAFAFA' : '#FFF'}; border-radius:12px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; position:relative; cursor:pointer;">
-            ${ribbonEl}
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="width:18px; height:18px; border-radius:50%; border:2px solid ${isSel ? '#111' : '#D1D5DB'}; background:${isSel ? '#111' : '#FFF'}; box-shadow:inset 0 0 0 3px #FFF;"></div>
-              <div>
-                <div style="font-size:13.5px; font-weight:800;">${b.title}</div>
-                <div style="font-size:11.5px; color:#059669; font-weight:600;">${b.sub}</div>
-              </div>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-size:16px; font-weight:800;">$${b.price}</div>
-              <div style="font-size:11px; color:#6B7280;">$${(parseFloat(b.price) / (b.qty || 1)).toFixed(2)} / ea</div>
-            </div>
-          </div>
-        `;
-      });
-
-      if (store.bundles[activeBundleIdx]) {
-        const sel = store.bundles[activeBundleIdx];
-        document.getElementById('priceCurrent').innerText = `$${sel.price}`;
-        document.getElementById('priceOriginal').innerText = `$${sel.orig}`;
-        document.getElementById('badgeSave').innerText = sel.save;
-      }
-
-      // Gallery Thumbnails
-      const strip = document.getElementById('thumbStrip');
-      strip.innerHTML = '';
-      store.gallery.forEach((url, i) => {
-        strip.innerHTML += `
-          <button onclick="document.getElementById('mainImg').src='${url}'" style="flex:0 0 60px; height:60px; border-radius:8px; border:2px solid #E5E7EB; overflow:hidden; padding:0; cursor:pointer; background:#FFF;">
-            <img src="${url}" style="width:100%; height:100%; object-fit:cover;">
-          </button>
-        `;
-      });
-
-      // Reviews
-      const rList = document.getElementById('reviewsList');
-      rList.innerHTML = '';
-      store.reviews.forEach(r => {
-        rList.innerHTML += `
-          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:14px; font-size:13px;">
-            <div style="font-weight:700; display:flex; justify-content:space-between; margin-bottom:4px;">
-              <span>${r.user}</span>
-              <span style="color:#059669; font-size:11px;">✔ Verified Purchase</span>
-            </div>
-            <div style="color:#F59E0B; font-size:11px; margin-bottom:4px;">★★★★★</div>
-            <div>"${r.text}"</div>
-          </div>
-        `;
-      });
-
-      // FAQs
-      const fList = document.getElementById('faqList');
-      fList.innerHTML = '';
-      store.faqs.forEach(f => {
-        fList.innerHTML += `
-          <div style="border-bottom:1px solid #E5E7EB; padding:14px 0;">
-            <div style="font-weight:700; font-size:14px; margin-bottom:4px;">☑ ${f.q}</div>
-            <div style="color:#6B7280; font-size:13px; line-height:1.5;">${f.a}</div>
-          </div>
-        `;
-      });
-    }
-
-    function selectBundle(idx) {
-      activeBundleIdx = idx;
-      renderPreview();
-    }
-
-    function renderSidebarControls() {
-      // Bundles
-      const bCtrl = document.getElementById('bundle-list-controls');
-      bCtrl.innerHTML = '';
-      store.bundles.forEach((b, idx) => {
-        bCtrl.innerHTML += `
-          <div class="card-editor">
-            <button class="btn-delete-card" onclick="deleteBundle(${idx})">✕</button>
-            <div class="field-label" style="color:#38BDF8;">Bundle #${idx + 1}</div>
-            <input type="text" class="field-input" value="${b.title}" placeholder="Bundle Title" oninput="store.bundles[${idx}].title=this.value; renderPreview();">
-            <input type="text" class="field-input" value="${b.sub}" placeholder="Sub text" oninput="store.bundles[${idx}].sub=this.value; renderPreview();">
-            <div style="display:flex; gap:6px;">
-              <input type="text" class="field-input" value="${b.price}" placeholder="Price" oninput="store.bundles[${idx}].price=this.value; renderPreview();">
-              <input type="text" class="field-input" value="${b.orig}" placeholder="Was" oninput="store.bundles[${idx}].orig=this.value; renderPreview();">
-              <input type="text" class="field-input" value="${b.ribbon}" placeholder="Ribbon" oninput="store.bundles[${idx}].ribbon=this.value; renderPreview();">
-            </div>
-          </div>
-        `;
-      });
-
-      // Gallery
-      const gCtrl = document.getElementById('gallery-controls');
-      gCtrl.innerHTML = '';
-      store.gallery.forEach((url, idx) => {
-        gCtrl.innerHTML += `
-          <div class="card-editor" style="flex-direction:row; align-items:center; gap:10px;">
-            <img src="${url}" style="width:44px; height:44px; border-radius:6px; object-fit:cover;">
-            <input type="text" class="field-input" style="flex:1;" value="${url}" oninput="store.gallery[${idx}]=this.value; if(${idx}===0) document.getElementById('mainImg').src=this.value; renderPreview();">
-            <button class="btn-delete-card" style="position:static;" onclick="deleteGallery(${idx})">✕</button>
-          </div>
-        `;
-      });
-      gCtrl.innerHTML += `<button class="btn-add-item" onclick="addNewGalleryPhoto()">+ Add Photo URL</button>`;
-
-      // Reviews
-      const rCtrl = document.getElementById('reviews-controls');
-      rCtrl.innerHTML = '';
-      store.reviews.forEach((r, idx) => {
-        rCtrl.innerHTML += `
-          <div class="card-editor">
-            <button class="btn-delete-card" onclick="deleteReview(${idx})">✕</button>
-            <input type="text" class="field-input" value="${r.user}" placeholder="Name" oninput="store.reviews[${idx}].user=this.value; renderPreview();">
-            <textarea class="field-textarea" placeholder="Comment" oninput="store.reviews[${idx}].text=this.value; renderPreview();">${r.text}</textarea>
-          </div>
-        `;
-      });
-
-      // FAQs
-      const fCtrl = document.getElementById('faqs-controls');
-      fCtrl.innerHTML = '';
-      store.faqs.forEach((f, idx) => {
-        fCtrl.innerHTML += `
-          <div class="card-editor">
-            <button class="btn-delete-card" onclick="deleteFaq(${idx})">✕</button>
-            <input type="text" class="field-input" value="${f.q}" placeholder="Question" oninput="store.faqs[${idx}].q=this.value; renderPreview();">
-            <textarea class="field-textarea" placeholder="Answer" oninput="store.faqs[${idx}].a=this.value; renderPreview();">${f.a}</textarea>
-          </div>
-        `;
-      });
-    }
-
-    function addNewBundle() {
-      store.bundles.push({ qty: 1, title: "Special Bundle Set", sub: "Limited Offer", price: "49.99", orig: "99.99", ribbon: "", save: "Save 50%", checkout: "" });
-      renderSidebarControls();
-      renderPreview();
-    }
-    function deleteBundle(idx) {
-      if (store.bundles.length <= 1) return alert('At least one bundle required!');
-      store.bundles.splice(idx, 1);
-      activeBundleIdx = 0;
-      renderSidebarControls();
-      renderPreview();
-    }
-    function addNewGalleryPhoto() {
-      const url = prompt("Enter Image URL:", "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80");
-      if (url) {
-        store.gallery.push(url);
-        renderSidebarControls();
-        renderPreview();
-      }
-    }
-    function deleteGallery(idx) {
-      if (store.gallery.length <= 1) return alert('At least 1 photo required!');
-      store.gallery.splice(idx, 1);
-      renderSidebarControls();
-      renderPreview();
-    }
-    function addNewReview() {
-      store.reviews.push({ user: "Customer Name 🇺🇸", text: "Great product quality!" });
-      renderSidebarControls();
-      renderPreview();
-    }
-    function deleteReview(idx) {
-      store.reviews.splice(idx, 1);
-      renderSidebarControls();
-      renderPreview();
-    }
-    function addNewFaq() {
-      store.faqs.push({ q: "What is your return policy?", a: "30-day money-back guarantee." });
-      renderSidebarControls();
-      renderPreview();
-    }
-    function deleteFaq(idx) {
-      store.faqs.splice(idx, 1);
-      renderSidebarControls();
-      renderPreview();
-    }
-
-    function syncField(id, val) {
-      const el = document.getElementById(id);
-      if (el) el.innerText = val;
-    }
-    function updateBrand(val) {
-      syncField('brandLogo', val);
-      syncField('footerBrandLogo', val);
-      syncField('footerBrandCopy', val);
-    }
-    function toggleEl(id, show) {
-      const el = document.getElementById(id);
-      if (el) el.style.display = show ? 'block' : 'none';
-    }
-    function setDevice(type, btn) {
-      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const frame = document.getElementById('liveFrame');
-      if (type === 'desktop') frame.classList.add('desktop');
-      else frame.classList.remove('desktop');
-    }
-
-    function generateCleanPage() {
-      const liveHTML = document.getElementById('liveFrame').innerHTML;
-      return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${document.getElementById('brandLogo').innerText}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --dark-bg: #000000;
-      --dark-surface: #0B0E14;
-      --dark-border: rgba(255, 255, 255, 0.08);
-      --brand-accent: #E11D48;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: #FAFAFA; color: #111827; }
-    .store-shell { width: 100%; max-width: 520px; margin: 0 auto; background: #FFF; min-height: 100vh; }
-    .luxury-footer { background: var(--dark-bg); color: #94A3B8; padding: 50px 20px 32px; font-size: 13px; border-top: 1px solid var(--dark-border); margin-top: 40px; }
-    .footer-shell { max-width: 1080px; margin: 0 auto; }
-    .trust-strip { display: grid; grid-template-columns: 1fr; gap: 12px; background: var(--dark-surface); border: 1px solid var(--dark-border); border-radius: 16px; padding: 16px; margin-bottom: 40px; }
-    .trust-strip-item { display: flex; align-items: center; gap: 14px; padding: 4px 6px; }
-    .trust-ico { width: 38px; height: 38px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
-    .trust-meta h4 { color: #FFFFFF; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-    .trust-meta p { color: #64748B; font-size: 11.5px; line-height: 1.4; }
-    .footer-main-grid { display: grid; grid-template-columns: 1fr; gap: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--dark-border); }
-    .brand-col h3 { color: #FFFFFF; font-size: 18px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px; text-transform: uppercase; }
-    .brand-col p { color: #94A3B8; font-size: 13px; line-height: 1.6; max-width: 380px; margin-bottom: 20px; }
-    .newsletter-form { display: flex; align-items: center; background: var(--dark-surface); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 5px 6px 5px 16px; max-width: 400px; }
-    .newsletter-input { flex: 1; background: transparent; border: none; color: #FFFFFF; font-size: 13px; outline: none; }
-    .newsletter-btn { background: #FFFFFF; color: #07090E; border: none; padding: 9px 16px; border-radius: 9px; font-size: 12px; font-weight: 800; cursor: pointer; }
-    .nav-columns-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-    .nav-col h5 { color: #FFFFFF; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
-    .nav-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .nav-col a { color: #94A3B8; text-decoration: none; font-size: 13px; }
-    .sub-footer { display: flex; flex-direction: column-reverse; align-items: center; gap: 16px; padding-top: 26px; }
-    .copyright-line { color: #64748B; font-size: 12px; text-align: center; }
-    .clean-badge-img { height: 26px; width: auto; max-width: 300px; display: block; object-fit: contain; }
-    @media (min-width: 860px) {
-      .trust-strip { grid-template-columns: repeat(3, 1fr); padding: 14px 20px; gap: 20px; }
-      .footer-main-grid { grid-template-columns: 1.3fr 0.7fr; gap: 60px; }
-      .sub-footer { flex-direction: row; justify-content: space-between; }
-      .copyright-line { text-align: left; }
-    }
-  </style>
-</head>
-<body>
-  <div class="store-shell">
-    ${liveHTML.replace(/contenteditable="true"/g, '')}
-  </div>
-</body>
-</html>`;
-    }
-
-    function downloadIndexHTML() {
-      const code = generateCleanPage();
-      const blob = new Blob([code], { type: 'text/html' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'index.html';
-      a.click();
-    }
-
-    async function publishLiveGitHub() {
-      let token = localStorage.getItem('gh_studio_pat');
-      if (!token) {
-        token = prompt("Enter your GitHub Personal Access Token to publish live:");
-        if (!token) return;
-        localStorage.setItem('gh_studio_pat', token);
-      }
-
-      const repo = 'xboom96/gift-landing-page';
-      const filePath = 'index.html';
-      const cleanHtml = generateCleanPage();
-
+      // 2. Try fetching dynamic content from settings.json if available
       try {
-        const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
-          headers: { Authorization: `token ${token}` }
-        });
-        const fileData = await getRes.json();
-        const sha = fileData.sha;
-
-        const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
-          method: 'PUT',
-          headers: {
-            Authorization: `token ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: 'Live publish with Luxury Black Footer from Studio V2',
-            content: btoa(unescape(encodeURIComponent(cleanHtml))),
-            sha: sha
-          })
-        });
-
-        if (putRes.ok) {
-          alert('🚀 SUCCESS! Your changes have been pushed live to GitHub and Vercel will update in 15 seconds!');
-        } else {
-          throw new Error('Push failed.');
+        const res = await fetch('/content/settings.json?v=' + new Date().getTime());
+        if (res.ok) {
+          liveData = await res.json();
+          // Merge with default so no fields end up blank
+          const mergedData = { ...defaultData, ...liveData };
+          if (!liveData.reviews || liveData.reviews.length === 0) mergedData.reviews = defaultData.reviews;
+          if (!liveData.faqs || liveData.faqs.length === 0) mergedData.faqs = defaultData.faqs;
+          if (!liveData.bundles || liveData.bundles.length === 0) mergedData.bundles = defaultData.bundles;
+          renderDynamicPage(mergedData);
         }
       } catch (err) {
-        alert('GitHub push failed. Downloading updated index.html instead.');
-        downloadIndexHTML();
+        console.log('Serving default built-in data.');
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      renderSidebarControls();
-      renderPreview();
-    });
+    function renderDynamicPage(data) {
+      if (data.logo_text) {
+        document.getElementById('brandLogo').innerText = data.logo_text;
+        document.getElementById('footerBrandLogo').innerText = data.logo_text;
+        document.getElementById('docTitle').innerText = `${data.logo_text} | Limited Holiday Edition`;
+      }
+
+      if (data.promo_text) {
+        document.getElementById('promoText').innerText = data.promo_text;
+      }
+
+      if (data.live_proof_text) {
+        document.getElementById('liveProofText').innerText = data.live_proof_text;
+      }
+
+      if (data.product_title) {
+        document.getElementById('prodTitle').innerText = data.product_title;
+      }
+
+      if (data.review_summary) {
+        document.getElementById('reviewSummary').innerText = data.review_summary;
+      }
+
+      if (data.stock_remaining) {
+        document.getElementById('stockRemainingText').innerText = `Only ${data.stock_remaining} Units Remaining!`;
+      }
+
+      // 1. Gallery
+      if (data.gallery_images && data.gallery_images.length > 0) {
+        const mainImg = document.getElementById('mainDisplay');
+        mainImg.src = data.gallery_images[0].image_url;
+
+        const thumbStrip = document.getElementById('thumbnailStrip');
+        thumbStrip.innerHTML = '';
+        data.gallery_images.forEach((imgObj, i) => {
+          const btn = document.createElement('button');
+          btn.className = `thumb-card ${i === 0 ? 'active' : ''}`;
+          btn.onclick = () => changeImage(imgObj.image_url, btn);
+          btn.innerHTML = `<img src="${imgObj.image_url}" alt="Angle ${i+1}">`;
+          thumbStrip.appendChild(btn);
+        });
+      }
+
+      // 2. Feature Bullets
+      if (data.feature_bullets && data.feature_bullets.length > 0) {
+        const bulletsCard = document.getElementById('bulletsCard');
+        bulletsCard.innerHTML = '';
+        data.feature_bullets.forEach(b => {
+          const div = document.createElement('div');
+          div.innerHTML = `<span>✔</span> ${b.text}`;
+          bulletsCard.appendChild(div);
+        });
+      }
+
+      // 3. Bundles
+      if (data.bundles && data.bundles.length > 0) {
+        renderBundles(data.bundles);
+      }
+
+      // 4. Reviews
+      if (data.reviews && data.reviews.length > 0) {
+        const reviewsGrid = document.getElementById('reviewsGrid');
+        reviewsGrid.innerHTML = '';
+        data.reviews.forEach(r => {
+          const item = document.createElement('div');
+          item.className = 'review-item';
+          item.innerHTML = `
+            <div class="review-user">
+              <span>${r.user}</span>
+              <span class="verified-chip">✔ Verified Purchase</span>
+            </div>
+            <div class="stars">★★★★★</div>
+            <div>"${r.comment}"</div>
+          `;
+          reviewsGrid.appendChild(item);
+        });
+      }
+
+      // 5. FAQs
+      if (data.faqs && data.faqs.length > 0) {
+        const faqList = document.getElementById('faqList');
+        faqList.innerHTML = '';
+        data.faqs.forEach(f => {
+          const item = document.createElement('div');
+          item.className = 'faq-item';
+          item.innerHTML = `
+            <button class="faq-question" onclick="toggleFaq(this)">
+              <div class="faq-left">
+                <span class="faq-icon">☑</span>
+                <span>${f.question}</span>
+              </div>
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">${f.answer}</div>
+          `;
+          faqList.appendChild(item);
+        });
+      }
+    }
+
+    function renderBundles(bundles) {
+      const container = document.getElementById('bundleContainer');
+      container.innerHTML = '';
+
+      bundles.forEach((tier, index) => {
+        const isSelected = index === activeBundleIndex;
+        const ribbonHtml = tier.ribbon 
+          ? `<span class="bundle-ribbon ${tier.ribbon.includes('POPULAR') ? 'popular' : ''}">${tier.ribbon}</span>` 
+          : '';
+
+        const card = document.createElement('div');
+        card.className = `bundle-card ${isSelected ? 'selected' : ''}`;
+        card.onclick = () => {
+          activeBundleIndex = index;
+          renderBundles(bundles);
+        };
+
+        card.innerHTML = `
+          ${ribbonHtml}
+          <div class="bundle-card-left">
+            <div class="bundle-radio"></div>
+            <div>
+              <div class="bundle-text-main">${tier.title}</div>
+              <div class="bundle-text-sub">${tier.sub}</div>
+            </div>
+          </div>
+          <div class="bundle-card-right">
+            <div class="bundle-price-total">$${parseFloat(tier.total_price).toFixed(2)}</div>
+            <div class="bundle-price-each">$${(parseFloat(tier.total_price) / tier.qty).toFixed(2)} / ea</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      updatePriceDisplay(bundles[activeBundleIndex]);
+    }
+
+    function updatePriceDisplay(tier) {
+      document.getElementById('displayCurrentPrice').innerText = `$${parseFloat(tier.total_price).toFixed(2)}`;
+      document.getElementById('displayOriginalPrice').innerText = `$${parseFloat(tier.orig_price).toFixed(2)}`;
+      document.getElementById('displaySaveBadge').innerText = tier.save_text;
+
+      document.getElementById('stickyNowPrice').innerText = `$${parseFloat(tier.total_price).toFixed(2)}`;
+      document.getElementById('stickyWasPrice').innerText = `$${parseFloat(tier.orig_price).toFixed(2)}`;
+
+      const ctaBtn = document.getElementById('ctaButton');
+      if (tier.qty > 1) {
+        ctaBtn.innerText = `CLAIM ${tier.qty} SETS FOR $${parseFloat(tier.total_price).toFixed(2)} (FREE DELIVERY)`;
+      } else {
+        ctaBtn.innerText = `CLAIM 50% OFF & FREE DELIVERY`;
+      }
+    }
+
+    function handleCheckout() {
+      if (liveData && liveData.bundles && liveData.bundles[activeBundleIndex]) {
+        const bundle = liveData.bundles[activeBundleIndex];
+        if (bundle.checkout_url && bundle.checkout_url !== '#') {
+          window.location.href = bundle.checkout_url;
+          return;
+        }
+      }
+      const container = document.getElementById('shopify-button-container');
+      container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function toggleFaq(button) {
+      const item = button.parentElement;
+      const isActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+      if (!isActive) item.classList.add('active');
+    }
+
+    function changeImage(imageUrl, buttonElement) {
+      const mainImg = document.getElementById('mainDisplay');
+      mainImg.style.opacity = '0.35';
+      setTimeout(() => {
+        mainImg.src = imageUrl;
+        mainImg.style.opacity = '1';
+      }, 100);
+      document.querySelectorAll('.thumb-card').forEach(card => card.classList.remove('active'));
+      buttonElement.classList.add('active');
+    }
+
+    let time = 8072;
+    setInterval(() => {
+      let h = Math.floor(time / 3600).toString().padStart(2, '0');
+      let m = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
+      let s = (time % 60).toString().padStart(2, '0');
+      document.getElementById('timer').innerText = `${h}:${m}:${s}`;
+      if (time > 0) time--;
+    }, 1000);
+
+    document.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
 </html>
