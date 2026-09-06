@@ -37,20 +37,23 @@ collections:
               - { label: "Image URL or Upload", name: "image_url", widget: "image" }
 
           # --- Quantity Bundles (Easy Edit) ---
-          - label: "📦 Pricing Bundles"
-            name: "bundles"
-            widget: "list"
-            collapsed: false
-            summary: "{{fields.title}} - ${{fields.total_price}}"
-            fields:
-              - { label: "Quantity (e.g. 1, 2, 3)", name: "qty", widget: "number" }
-              - { label: "Bundle Title", name: "title", widget: "string" }
-              - { label: "Sub Text / Perks", name: "sub", widget: "string" }
-              - { label: "Total Price ($)", name: "total_price", widget: "number", value_type: "float" }
-              - { label: "Original Price ($)", name: "orig_price", widget: "number", value_type: "float" }
-              - { label: "Save Text (e.g. Save 57%)", name: "save_text", widget: "string" }
-              - { label: "Badge Ribbon (Optional)", name: "ribbon", widget: "string", required: false }
-              - { label: "Checkout Link for this Bundle", name: "checkout_url", widget: "string", required: false }
+          # --- Bundle 1 ---
+          - { label: "📦 Bundle 1 - Title", name: "b1_title", widget: "string", default: "Buy 1 Set (Holiday Starter)" }
+          - { label: "📦 Bundle 1 - Price ($)", name: "b1_price", widget: "string", default: "34.99" }
+          - { label: "📦 Bundle 1 - Original Price ($)", name: "b1_orig", widget: "string", default: "69.99" }
+          - { label: "📦 Bundle 1 - Subtext", name: "b1_sub", widget: "string", default: "Standard Gift Packaging Included" }
+
+          # --- Bundle 2 ---
+          - { label: "📦 Bundle 2 - Title", name: "b2_title", widget: "string", default: "Buy 2 Sets (Family & Gifting)" }
+          - { label: "📦 Bundle 2 - Price ($)", name: "b2_price", widget: "string", default: "59.99" }
+          - { label: "📦 Bundle 2 - Original Price ($)", name: "b2_orig", widget: "string", default: "139.98" }
+          - { label: "📦 Bundle 2 - Subtext", name: "b2_sub", widget: "string", default: "Free Luxury Gift Bag + Save Extra $10" }
+
+          # --- Bundle 3 ---
+          - { label: "📦 Bundle 3 - Title", name: "b3_title", widget: "string", default: "Buy 3 Sets (Ultimate Home Decor)" }
+          - { label: "📦 Bundle 3 - Price ($)", name: "b3_price", widget: "string", default: "79.99" }
+          - { label: "📦 Bundle 3 - Original Price ($)", name: "b3_orig", widget: "string", default: "209.97" }
+          - { label: "📦 Bundle 3 - Subtext", name: "b3_sub", widget: "string", default: "Free VIP Express Tracked Delivery" }
 
           # --- Feature Bullets ---
           - label: "✔ Feature Bullets"
