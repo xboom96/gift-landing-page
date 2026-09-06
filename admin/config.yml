@@ -9,53 +9,92 @@ public_folder: "/assets/uploads"
 
 collections:
   - name: "landing_page"
-    label: "Website Content"
+    label: "Store Content"
     files:
       - file: "content/settings.json"
-        label: "Full Page Controls"
+        label: "Landing Page Settings"
         name: "settings"
         fields:
-          - { label: "Brand Logo Text", name: "logo_text", widget: "string", default: "AURA GIFTS" }
-          - { label: "Announcement Bar Text", name: "promo_text", widget: "string", default: "✨ 50% OFF FLASH SALE ENDING IN:" }
-          - { label: "Live Proof Bar Text", name: "live_proof_text", widget: "string", default: "23 shoppers viewing right now | 148 orders placed today" }
-          - { label: "Product Title", name: "product_title", widget: "string", default: "Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)" }
-          - { label: "Review Summary Text", name: "review_summary", widget: "string", default: "★★★★★ 4.9/5 (1,420+ Verified Reviews)" }
-          - { label: "Discount Price ($)", name: "price_current", widget: "string", default: "34.99" }
-          - { label: "Original Price ($)", name: "price_original", widget: "string", default: "69.99" }
-          - { label: "Stock Remaining Count", name: "stock_remaining", widget: "number", default: 5 }
-          - { label: "CTA Button Text", name: "cta_text", widget: "string", default: "CLAIM OFFER & FREE DELIVERY" }
-          - { label: "Shopify / Checkout URL", name: "checkout_url", widget: "string", default: "#" }
+          - label: "Brand Logo Text"
+            name: "logo_text"
+            widget: "string"
+            default: "AURA GIFTS"
+
+          - label: "Announcement Bar Text"
+            name: "promo_text"
+            widget: "string"
+            default: "✨ 50% OFF FLASH SALE ENDING IN:"
+
+          - label: "Live Shoppers Bar"
+            name: "live_proof_text"
+            widget: "string"
+            default: "23 shoppers viewing right now | 148 orders placed today"
+
+          - label: "Product Title"
+            name: "product_title"
+            widget: "string"
+            default: "Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)"
+
+          - label: "Review Summary (Under Title)"
+            name: "review_summary"
+            widget: "string"
+            default: "★★★★★ 4.9/5 (1,420+ Verified Reviews)"
+
+          - label: "Stock Urgency Count"
+            name: "stock_remaining"
+            widget: "number"
+            default: 5
+
+          - label: "Checkout Link (Shopify URL)"
+            name: "checkout_url"
+            widget: "string"
+            default: "#"
+
           - label: "Product Gallery Images"
             name: "gallery_images"
             widget: "list"
+            collapsed: false
+            summary: "{{fields.image_url}}"
             fields:
               - { label: "Image URL", name: "image_url", widget: "string" }
-          - label: "Feature Bullets"
+
+          - label: "Feature Checkmarks"
             name: "feature_bullets"
             widget: "list"
+            collapsed: false
+            summary: "{{fields.text}}"
             fields:
-              - { label: "Bullet Text", name: "text", widget: "string" }
-          - label: "Bundles"
+              - { label: "Text", name: "text", widget: "string" }
+
+          - label: "Quantity Bundles (Tiers)"
             name: "bundles"
             widget: "list"
+            collapsed: false
+            summary: "{{fields.title}} - ${{fields.total_price}}"
             fields:
               - { label: "Quantity", name: "qty", widget: "number" }
               - { label: "Bundle Title", name: "title", widget: "string" }
-              - { label: "Sub Text", name: "sub", widget: "string" }
+              - { label: "Subtext / Offer", name: "sub", widget: "string" }
               - { label: "Total Price ($)", name: "total_price", widget: "number", value_type: "float" }
               - { label: "Original Price ($)", name: "orig_price", widget: "number", value_type: "float" }
-              - { label: "Save Text", name: "save_text", widget: "string" }
-              - { label: "Ribbon (e.g. MOST POPULAR)", name: "ribbon", widget: "string", required: false }
-              - { label: "Checkout URL", name: "checkout_url", widget: "string", required: false }
+              - { label: "Save Badge Text", name: "save_text", widget: "string" }
+              - { label: "Ribbon Badge (e.g. MOST POPULAR)", name: "ribbon", widget: "string", required: false }
+              - { label: "Direct Checkout Link for this Bundle", name: "checkout_url", widget: "string", required: false }
+
           - label: "Customer Reviews"
             name: "reviews"
             widget: "list"
+            collapsed: true
+            summary: "{{fields.user}}"
             fields:
-              - { label: "Customer Name", name: "user", widget: "string" }
+              - { label: "User Name & Flag", name: "user", widget: "string" }
               - { label: "Comment", name: "comment", widget: "text" }
-          - label: "Frequently Asked Questions"
+
+          - label: "FAQs"
             name: "faqs"
             widget: "list"
+            collapsed: true
+            summary: "{{fields.question}}"
             fields:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
