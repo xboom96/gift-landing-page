@@ -1,0 +1,29 @@
+backend:
+  name: github
+  repo: https://github.com/xboom96/gift-landing-page
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "landing_page"
+    label: "Landing Page Content"
+    files:
+      - file: "content/settings.json"
+        label: "Store Settings & Copy"
+        name: "settings"
+        fields:
+          - { label: "Announcement Bar Text", name: "promo_text", widget: "string" }
+          - { label: "Main Product Title", name: "product_title", widget: "string" }
+          - { label: "Discount Price ($)", name: "price_current", widget: "string" }
+          - { label: "Original Price ($)", name: "price_original", widget: "string" }
+          - { label: "Stock Left Count", name: "stock_remaining", widget: "number" }
+          - { label: "Main Hero Image", name: "hero_image", widget: "image" }
+          - label: "Customer Reviews"
+            name: "reviews"
+            widget: "list"
+            fields:
+              - { label: "Customer Name", name: "name", widget: "string" }
+              - { label: "Review Text", name: "comment", widget: "text" }
+              - { label: "Rating Stars", name: "rating", widget: "number", default: 5 }
