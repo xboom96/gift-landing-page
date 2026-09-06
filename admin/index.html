@@ -10,7 +10,7 @@
   
   <style>
     :root {
-      --sidebar-w: 400px;
+      --sidebar-w: 390px;
       --panel-bg: #090D16;
       --panel-surface: #141C2E;
       --panel-border: #23304B;
@@ -19,6 +19,9 @@
       --brand-accent: #E11D48;
       --green: #10B981;
       --danger: #EF4444;
+      --dark-bg: #000000;
+      --dark-surface: #0B0E14;
+      --dark-border: rgba(255, 255, 255, 0.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -35,7 +38,6 @@
       flex-shrink: 0;
       z-index: 50;
     }
-
     .studio-header {
       padding: 16px 20px;
       border-bottom: 1px solid var(--panel-border);
@@ -63,17 +65,13 @@
       color: var(--panel-muted);
       font-size: 12px;
       font-weight: 700;
-      padding: 7px 13px;
+      padding: 7px 12px;
       border-radius: 7px;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
     }
-    .studio-tab-btn.active { 
-      background: var(--panel-surface); 
-      color: #FFF; 
-      border-color: var(--panel-border); 
-    }
+    .studio-tab-btn.active { background: var(--panel-surface); color: #FFF; border-color: var(--panel-border); }
 
     .studio-content {
       flex: 1;
@@ -81,7 +79,7 @@
       padding: 20px;
       display: none;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
     .studio-content.active-tab-content { display: flex; }
 
@@ -95,7 +93,6 @@
       color: #FFF;
       font-size: 13px;
       outline: none;
-      transition: border-color 0.2s;
     }
     .field-input:focus, .field-textarea:focus { border-color: #38BDF8; }
     .field-textarea { resize: vertical; min-height: 65px; }
@@ -145,7 +142,6 @@
       font-weight: bold;
     }
     .btn-delete-card:hover { background: var(--danger); color: #FFF; }
-
     .btn-add-item {
       background: transparent;
       border: 1px dashed #38BDF8;
@@ -155,11 +151,8 @@
       font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.15s;
     }
-    .btn-add-item:hover { background: rgba(56, 189, 248, 0.08); }
 
-    /* FOOTER ACTIONS */
     .studio-footer {
       padding: 16px 20px;
       border-top: 1px solid var(--panel-border);
@@ -196,7 +189,7 @@
       cursor: pointer;
     }
 
-    /* CANVAS PREVIEW */
+    /* CANVAS */
     .studio-canvas {
       flex: 1;
       background: #030712;
@@ -231,7 +224,6 @@
       cursor: pointer;
     }
     .device-btn.active { background: #334155; color: #FFF; }
-
     .canvas-viewport {
       flex: 1;
       overflow-y: auto;
@@ -250,9 +242,8 @@
       transition: max-width 0.3s ease;
       min-height: 850px;
     }
-    .device-frame.desktop { max-width: 1080px; border-radius: 12px; }
+    .device-frame.desktop { max-width: 1100px; border-radius: 12px; }
 
-    /* EDITABLE HIGHLIGHT */
     [contenteditable="true"] {
       outline: 1px dashed transparent;
       transition: outline 0.15s, background 0.15s;
@@ -268,6 +259,101 @@
       outline: 2px solid #2563EB;
       background: #FFF;
     }
+
+    /* FULL LUXURY FOOTER CSS */
+    .luxury-footer { 
+      background: var(--dark-bg); 
+      color: #94A3B8; 
+      padding: 50px 20px 32px; 
+      font-size: 13px; 
+      border-top: 1px solid var(--dark-border);
+      margin-top: 40px;
+    }
+    .footer-shell { max-width: 1080px; margin: 0 auto; }
+    .trust-strip {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      background: var(--dark-surface);
+      border: 1px solid var(--dark-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 40px;
+    }
+    .trust-strip-item { display: flex; align-items: center; gap: 14px; padding: 4px 6px; }
+    .trust-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .trust-meta h4 { color: #FFFFFF; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .trust-meta p { color: #64748B; font-size: 11.5px; line-height: 1.4; }
+
+    .footer-main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .brand-col h3 {
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .brand-col p { color: #94A3B8; font-size: 13px; line-height: 1.6; max-width: 380px; margin-bottom: 20px; }
+    .newsletter-form {
+      display: flex;
+      align-items: center;
+      background: var(--dark-surface);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 5px 6px 5px 16px;
+      max-width: 400px;
+    }
+    .newsletter-input { flex: 1; background: transparent; border: none; color: #FFFFFF; font-size: 13px; outline: none; }
+    .newsletter-btn {
+      background: #FFFFFF;
+      color: #07090E;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .nav-columns-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .nav-col h5 { color: #FFFFFF; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+    .nav-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .nav-col a { color: #94A3B8; text-decoration: none; font-size: 13px; }
+
+    .sub-footer {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 16px;
+      padding-top: 26px;
+    }
+    .copyright-line { color: #64748B; font-size: 12px; text-align: center; }
+    .clean-badge-img { height: 26px; width: auto; max-width: 300px; display: block; object-fit: contain; }
+
+    @media (min-width: 860px) {
+      .trust-strip { grid-template-columns: repeat(3, 1fr); padding: 14px 20px; gap: 20px; }
+      .footer-main-grid { grid-template-columns: 1.3fr 0.7fr; gap: 60px; }
+      .sub-footer { flex-direction: row; justify-content: space-between; }
+      .copyright-line { text-align: left; }
+    }
   </style>
 </head>
 <body>
@@ -275,7 +361,7 @@
   <!-- LEFT CONTROL SIDEBAR -->
   <aside class="studio-sidebar">
     <div class="studio-header">
-      <div class="studio-brand">AURA <span>STUDIO V2</span></div>
+      <div class="studio-brand">AURA <span>STUDIO</span></div>
       <div style="font-size: 11px; color: var(--green); font-weight: 700;">● LIVE SYNC</div>
     </div>
 
@@ -346,7 +432,7 @@
 
     <!-- 3. GALLERY TAB -->
     <div class="studio-content" id="tab-gallery">
-      <div style="font-size: 12px; color: var(--panel-muted); margin-bottom: 4px;">Update product photos:</div>
+      <div style="font-size: 12px; color: var(--panel-muted); margin-bottom: 4px;">Update product photos (URL):</div>
       <div id="gallery-controls" style="display:flex; flex-direction:column; gap:12px;"></div>
     </div>
 
@@ -379,18 +465,18 @@
     <!-- 6. FOOTER TAB -->
     <div class="studio-content" id="tab-footer">
       <div class="toggle-row">
-        <span>Show Luxury Black Footer</span>
+        <span>Show Luxury Footer</span>
         <label class="switch">
           <input type="checkbox" checked onchange="toggleEl('luxuryFooterSection', this.checked)">
           <span class="slider"></span>
         </label>
       </div>
       <div class="field-group">
-        <label class="field-label">Footer Brand Bio</label>
+        <label class="field-label">Brand Bio Description</label>
         <textarea class="field-textarea" oninput="syncField('footerBio', this.value)">Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.</textarea>
       </div>
       <div class="field-group">
-        <label class="field-label">Trust Badge Image Source</label>
+        <label class="field-label">Trust Badge Image File / URL</label>
         <input type="text" class="field-input" value="trust-badge.png" oninput="document.getElementById('trustBadgeImg').src = this.value;">
       </div>
     </div>
@@ -438,9 +524,8 @@
           <span id="liveProofText" contenteditable="true">23 shoppers viewing right now | 148 orders placed today</span>
         </div>
 
-        <!-- Main Content Area -->
+        <!-- Main Product Area -->
         <div style="padding:20px 16px;">
-          
           <!-- Gallery -->
           <div style="margin-bottom:18px;">
             <div style="width:100%; aspect-ratio:1/1; background:#FAFAFA; border-radius:14px; overflow:hidden; border:1px solid #E5E7EB; margin-bottom:10px;">
@@ -499,60 +584,79 @@
           </div>
 
           <!-- FAQ Section -->
-          <div id="faqSection" style="border-top:1px solid #E5E7EB; padding-top:24px; margin-bottom:30px;">
+          <div id="faqSection" style="border-top:1px solid #E5E7EB; padding-top:24px;">
             <h3 style="font-size:18px; font-weight:800; text-align:center; margin-bottom:16px;">FREQUENTLY ASKED QUESTIONS</h3>
             <div id="faqList" style="display:flex; flex-direction:column;"></div>
           </div>
-
         </div>
 
-        <!-- LUXURY BLACK FOOTER (PREVIEW & PRODUCTION) -->
-        <footer id="luxuryFooterSection" style="background:#000000; color:#94A3B8; padding:45px 16px 28px; border-top:1px solid rgba(255,255,255,0.08);">
-          <div style="max-width:1000px; margin:0 auto;">
+        <!-- AUTHENTIC LUXURY BLACK FOOTER (PRECISE DTC REPLICA) -->
+        <footer class="luxury-footer" id="luxuryFooterSection">
+          <div class="footer-shell">
             
-            <!-- Trust Strip -->
-            <div style="display:grid; grid-template-columns:1fr; gap:12px; background:#0B0E14; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px; margin-bottom:36px;">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div style="font-size:22px;">🛡️</div>
-                <div>
-                  <div style="color:#FFF; font-size:13px; font-weight:700;">30-Day Risk-Free Trial</div>
-                  <div style="font-size:11.5px; color:#64748B;">100% full money-back guarantee.</div>
+            <div class="trust-strip">
+              <div class="trust-strip-item">
+                <div class="trust-ico">🛡️</div>
+                <div class="trust-meta">
+                  <h4>30-Day Risk-Free Trial</h4>
+                  <p>100% full money-back guarantee.</p>
                 </div>
               </div>
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div style="font-size:22px;">✈️</div>
-                <div>
-                  <div style="color:#FFF; font-size:13px; font-weight:700;">Tracked Global Shipping</div>
-                  <div style="font-size:11.5px; color:#64748B;">Direct tracking links with delivery alerts.</div>
+              <div class="trust-strip-item">
+                <div class="trust-ico">✈️</div>
+                <div class="trust-meta">
+                  <h4>Tracked Global Shipping</h4>
+                  <p>Direct tracking links with live delivery alerts.</p>
                 </div>
               </div>
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div style="font-size:22px;">🔒</div>
-                <div>
-                  <div style="color:#FFF; font-size:13px; font-weight:700;">256-Bit Encrypted Vault</div>
-                  <div style="font-size:11.5px; color:#64748B;">Bank-grade certified secure checkout.</div>
+              <div class="trust-strip-item">
+                <div class="trust-ico">🔒</div>
+                <div class="trust-meta">
+                  <h4>256-Bit Encrypted Vault</h4>
+                  <p>Bank-grade certified checkout gateway.</p>
                 </div>
               </div>
             </div>
 
-            <!-- Brand Bio & Newsletter -->
-            <div style="margin-bottom:32px;">
-              <h3 id="footerBrandLogo" contenteditable="true" style="color:#FFFFFF; font-size:17px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px;">AURA GIFTS</h3>
-              <p id="footerBio" contenteditable="true" style="font-size:13px; line-height:1.6; color:#94A3B8; margin-bottom:18px;">
-                Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.
-              </p>
-              <div style="display:flex; background:#0B0E14; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:4px 4px 4px 12px; max-width:380px;">
-                <input type="email" placeholder="Enter your email..." style="background:transparent; border:none; color:#FFF; font-size:12px; outline:none; flex:1;">
-                <button style="background:#FFF; color:#000; border:none; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">Join</button>
+            <div class="footer-main-grid">
+              <div class="brand-col">
+                <h3 id="footerBrandLogo" contenteditable="true">AURA GIFTS</h3>
+                <p id="footerBio" contenteditable="true">
+                  Curating limited-edition ambient mechanics and holiday centerpieces engineered to inspire wonder in everyday living spaces.
+                </p>
+                <div class="newsletter-form">
+                  <input type="email" class="newsletter-input" placeholder="Enter your email address...">
+                  <button class="newsletter-btn">Get 10% Off</button>
+                </div>
+              </div>
+
+              <div class="nav-columns-group">
+                <div class="nav-col">
+                  <h5>Customer Care</h5>
+                  <ul>
+                    <li><a href="#">Order Tracking</a></li>
+                    <li><a href="#">Shipping FAQ</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                  </ul>
+                </div>
+                <div class="nav-col">
+                  <h5>Legal & Policies</h5>
+                  <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Warranty Guide</a></li>
+                    <li><a href="#">Merchant Security</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
 
-            <!-- Copyright & Trust Badge -->
-            <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:20px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;">
-              <img id="trustBadgeImg" src="trust-badge.png" alt="Guaranteed Safe Checkout" style="height:26px; width:auto; max-width:280px; object-fit:contain;">
-              <div style="color:#64748B; font-size:11.5px;">
+            <div class="sub-footer">
+              <div class="copyright-line">
                 © 2026 <span id="footerBrandCopy">AURA GIFTS</span> Inc. All rights reserved. Powered by Shopify Checkout.
               </div>
+              <img id="trustBadgeImg" src="trust-badge.png" alt="Guaranteed Safe Checkout" class="clean-badge-img">
             </div>
 
           </div>
@@ -587,7 +691,6 @@
       ]
     };
 
-    // Tab Switcher
     function switchTab(tabId, btnElement) {
       document.querySelectorAll('.studio-content').forEach(el => el.classList.remove('active-tab-content'));
       document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active'));
@@ -596,7 +699,6 @@
       if (btnElement) btnElement.classList.add('active');
     }
 
-    // Canvas Renderer
     function renderPreview() {
       // Bundles
       const bContainer = document.getElementById('bundleContainer');
@@ -630,7 +732,7 @@
         document.getElementById('badgeSave').innerText = sel.save;
       }
 
-      // Gallery Strip
+      // Gallery Thumbnails
       const strip = document.getElementById('thumbStrip');
       strip.innerHTML = '';
       store.gallery.forEach((url, i) => {
@@ -675,7 +777,6 @@
       renderPreview();
     }
 
-    // Sidebar Controls Renderer
     function renderSidebarControls() {
       // Bundles
       const bCtrl = document.getElementById('bundle-list-controls');
@@ -690,7 +791,7 @@
             <div style="display:flex; gap:6px;">
               <input type="text" class="field-input" value="${b.price}" placeholder="Price" oninput="store.bundles[${idx}].price=this.value; renderPreview();">
               <input type="text" class="field-input" value="${b.orig}" placeholder="Was" oninput="store.bundles[${idx}].orig=this.value; renderPreview();">
-              <input type="text" class="field-input" value="${b.ribbon}" placeholder="Ribbon Tag" oninput="store.bundles[${idx}].ribbon=this.value; renderPreview();">
+              <input type="text" class="field-input" value="${b.ribbon}" placeholder="Ribbon" oninput="store.bundles[${idx}].ribbon=this.value; renderPreview();">
             </div>
           </div>
         `;
@@ -737,9 +838,8 @@
       });
     }
 
-    // CRUD Handlers
     function addNewBundle() {
-      store.bundles.push({ qty: 1, title: "Special Bundle Set", sub: "Limited Holiday Offer", price: "49.99", orig: "99.99", ribbon: "", save: "Save 50%", checkout: "" });
+      store.bundles.push({ qty: 1, title: "Special Bundle Set", sub: "Limited Offer", price: "49.99", orig: "99.99", ribbon: "", save: "Save 50%", checkout: "" });
       renderSidebarControls();
       renderPreview();
     }
@@ -785,7 +885,6 @@
       renderPreview();
     }
 
-    // UI Helpers
     function syncField(id, val) {
       const el = document.getElementById(id);
       if (el) el.innerText = val;
@@ -807,7 +906,6 @@
       else frame.classList.remove('desktop');
     }
 
-    // Output Cleaner
     function generateCleanPage() {
       const liveHTML = document.getElementById('liveFrame').innerHTML;
       return `<!DOCTYPE html>
@@ -820,9 +918,41 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --dark-bg: #000000;
+      --dark-surface: #0B0E14;
+      --dark-border: rgba(255, 255, 255, 0.08);
+      --brand-accent: #E11D48;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background: #FAFAFA; color: #111827; }
     .store-shell { width: 100%; max-width: 520px; margin: 0 auto; background: #FFF; min-height: 100vh; }
+    .luxury-footer { background: var(--dark-bg); color: #94A3B8; padding: 50px 20px 32px; font-size: 13px; border-top: 1px solid var(--dark-border); margin-top: 40px; }
+    .footer-shell { max-width: 1080px; margin: 0 auto; }
+    .trust-strip { display: grid; grid-template-columns: 1fr; gap: 12px; background: var(--dark-surface); border: 1px solid var(--dark-border); border-radius: 16px; padding: 16px; margin-bottom: 40px; }
+    .trust-strip-item { display: flex; align-items: center; gap: 14px; padding: 4px 6px; }
+    .trust-ico { width: 38px; height: 38px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .trust-meta h4 { color: #FFFFFF; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .trust-meta p { color: #64748B; font-size: 11.5px; line-height: 1.4; }
+    .footer-main-grid { display: grid; grid-template-columns: 1fr; gap: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--dark-border); }
+    .brand-col h3 { color: #FFFFFF; font-size: 18px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px; text-transform: uppercase; }
+    .brand-col p { color: #94A3B8; font-size: 13px; line-height: 1.6; max-width: 380px; margin-bottom: 20px; }
+    .newsletter-form { display: flex; align-items: center; background: var(--dark-surface); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 5px 6px 5px 16px; max-width: 400px; }
+    .newsletter-input { flex: 1; background: transparent; border: none; color: #FFFFFF; font-size: 13px; outline: none; }
+    .newsletter-btn { background: #FFFFFF; color: #07090E; border: none; padding: 9px 16px; border-radius: 9px; font-size: 12px; font-weight: 800; cursor: pointer; }
+    .nav-columns-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .nav-col h5 { color: #FFFFFF; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+    .nav-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .nav-col a { color: #94A3B8; text-decoration: none; font-size: 13px; }
+    .sub-footer { display: flex; flex-direction: column-reverse; align-items: center; gap: 16px; padding-top: 26px; }
+    .copyright-line { color: #64748B; font-size: 12px; text-align: center; }
+    .clean-badge-img { height: 26px; width: auto; max-width: 300px; display: block; object-fit: contain; }
+    @media (min-width: 860px) {
+      .trust-strip { grid-template-columns: repeat(3, 1fr); padding: 14px 20px; gap: 20px; }
+      .footer-main-grid { grid-template-columns: 1.3fr 0.7fr; gap: 60px; }
+      .sub-footer { flex-direction: row; justify-content: space-between; }
+      .copyright-line { text-align: left; }
+    }
   </style>
 </head>
 <body>
@@ -868,7 +998,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Live publish with Luxury Footer from Studio V2',
+            message: 'Live publish with Luxury Black Footer from Studio V2',
             content: btoa(unescape(encodeURIComponent(cleanHtml))),
             sha: sha
           })
