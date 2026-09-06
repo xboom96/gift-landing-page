@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: github.com/xboom96/gift-landing-page
+  repo: xboom96/gift-landing-page
   branch: main
 
 media_folder: "assets/uploads"
