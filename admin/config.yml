@@ -15,82 +15,66 @@ collections:
         label: "Landing Page Settings"
         name: "settings"
         fields:
-          - label: "Brand Logo Text"
-            name: "logo_text"
-            widget: "string"
-            default: "AURA GIFTS"
+          # --- SECTION 1: HEADER & VISIBILITY ---
+          - { label: "Brand Logo Text", name: "logo_text", widget: "string", default: "AURA GIFTS" }
+          - { label: "Show Announcement Bar?", name: "show_promo", widget: "boolean", default: true }
+          - { label: "Announcement Bar Text", name: "promo_text", widget: "string", default: "✨ 50% OFF FLASH SALE ENDING IN:" }
+          - { label: "Show Live Shoppers Bar?", name: "show_live_proof", widget: "boolean", default: true }
+          - { label: "Live Shoppers Text", name: "live_proof_text", widget: "string", default: "23 shoppers viewing right now | 148 orders placed today" }
 
-          - label: "Announcement Bar Text"
-            name: "promo_text"
-            widget: "string"
-            default: "✨ 50% OFF FLASH SALE ENDING IN:"
+          # --- SECTION 2: PRODUCT CORE ---
+          - { label: "Product Title", name: "product_title", widget: "string", default: "Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)" }
+          - { label: "Review Rating Summary", name: "review_summary", widget: "string", default: "★★★★★ 4.9/5 (1,420+ Verified Reviews)" }
+          - { label: "Show Stock Urgency Bar?", name: "show_urgency", widget: "boolean", default: true }
+          - { label: "Remaining Stock Count", name: "stock_remaining", widget: "number", default: 5 }
+          - { label: "Global Checkout URL", name: "checkout_url", widget: "string", default: "#" }
 
-          - label: "Live Shoppers Bar"
-            name: "live_proof_text"
-            widget: "string"
-            default: "23 shoppers viewing right now | 148 orders placed today"
-
-          - label: "Product Title"
-            name: "product_title"
-            widget: "string"
-            default: "Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)"
-
-          - label: "Review Summary (Under Title)"
-            name: "review_summary"
-            widget: "string"
-            default: "★★★★★ 4.9/5 (1,420+ Verified Reviews)"
-
-          - label: "Stock Urgency Count"
-            name: "stock_remaining"
-            widget: "number"
-            default: 5
-
-          - label: "Checkout Link (Shopify URL)"
-            name: "checkout_url"
-            widget: "string"
-            default: "#"
-
-          - label: "Product Gallery Images"
+          # --- SECTION 3: PRODUCT GALLERY ---
+          - label: "📸 Product Gallery Images (Orderable)"
             name: "gallery_images"
             widget: "list"
-            collapsed: false
-            summary: "{{fields.image_url}}"
+            collapsed: true
+            summary: "Photo: {{fields.image_url}}"
             fields:
-              - { label: "Image URL", name: "image_url", widget: "string" }
+              - { label: "Image URL or Upload", name: "image_url", widget: "image" }
 
-          - label: "Feature Checkmarks"
+          # --- SECTION 4: FEATURE BULLETS ---
+          - label: "✔ Feature Checklist (Orderable)"
             name: "feature_bullets"
             widget: "list"
-            collapsed: false
+            collapsed: true
             summary: "{{fields.text}}"
             fields:
-              - { label: "Text", name: "text", widget: "string" }
+              - { label: "Bullet Text", name: "text", widget: "string" }
 
-          - label: "Quantity Bundles (Tiers)"
+          # --- SECTION 5: BUNDLES (RE-ORDER & REMOVE) ---
+          - label: "📦 Pricing Bundles (Sort & Edit)"
             name: "bundles"
             widget: "list"
-            collapsed: false
-            summary: "{{fields.title}} - ${{fields.total_price}}"
+            collapsed: true
+            summary: "Tier: {{fields.title}} | Price: ${{fields.total_price}}"
             fields:
-              - { label: "Quantity", name: "qty", widget: "number" }
+              - { label: "Item Quantity", name: "qty", widget: "number", default: 1 }
               - { label: "Bundle Title", name: "title", widget: "string" }
-              - { label: "Subtext / Offer", name: "sub", widget: "string" }
-              - { label: "Total Price ($)", name: "total_price", widget: "number", value_type: "float" }
-              - { label: "Original Price ($)", name: "orig_price", widget: "number", value_type: "float" }
-              - { label: "Save Badge Text", name: "save_text", widget: "string" }
+              - { label: "Subtext / Offer Perks", name: "sub", widget: "string" }
+              - { label: "Discounted Price ($)", name: "total_price", widget: "number", value_type: "float" }
+              - { label: "Original Retail Price ($)", name: "orig_price", widget: "number", value_type: "float" }
+              - { label: "Save Badge Text (e.g. Save 50%)", name: "save_text", widget: "string" }
               - { label: "Ribbon Badge (e.g. MOST POPULAR)", name: "ribbon", widget: "string", required: false }
-              - { label: "Direct Checkout Link for this Bundle", name: "checkout_url", widget: "string", required: false }
+              - { label: "Custom Checkout URL for this Bundle", name: "checkout_url", widget: "string", required: false }
 
-          - label: "Customer Reviews"
+          # --- SECTION 6: CUSTOMER REVIEWS ---
+          - label: "⭐ Customer Reviews (Orderable)"
             name: "reviews"
             widget: "list"
             collapsed: true
             summary: "{{fields.user}}"
             fields:
-              - { label: "User Name & Flag", name: "user", widget: "string" }
-              - { label: "Comment", name: "comment", widget: "text" }
+              - { label: "Customer Name & Country", name: "user", widget: "string" }
+              - { label: "Review Comment", name: "comment", widget: "text" }
 
-          - label: "FAQs"
+          # --- SECTION 7: FAQS ---
+          - label: "❓ Frequently Asked Questions (Sortable)"
             name: "faqs"
             widget: "list"
             collapsed: true
