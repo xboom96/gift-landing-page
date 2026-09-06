@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AURA™ Ultimate Visual Store Studio</title>
+  <title>AURA™ Visual Page Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -59,7 +59,7 @@
     .studio-tabs::-webkit-scrollbar { display: none; }
     .studio-tab-btn {
       background: transparent;
-      border: none;
+      border: 1px solid transparent;
       color: var(--panel-muted);
       font-size: 12px;
       font-weight: 700;
@@ -69,15 +69,22 @@
       white-space: nowrap;
       transition: all 0.2s;
     }
-    .studio-tab-btn.active { background: var(--panel-surface); color: #FFF; border: 1px solid var(--panel-border); }
+    .studio-tab-btn.active { 
+      background: var(--panel-surface); 
+      color: #FFF; 
+      border-color: var(--panel-border); 
+    }
 
     .studio-content {
       flex: 1;
       overflow-y: auto;
       padding: 20px;
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 20px;
+    }
+    .studio-content.active-tab-content {
+      display: flex;
     }
 
     .field-group { display: flex; flex-direction: column; gap: 6px; }
@@ -154,7 +161,7 @@
     }
     .btn-add-item:hover { background: rgba(56, 189, 248, 0.08); }
 
-    /* FOOTER ACTIONS */
+    /* FOOTER */
     .studio-footer {
       padding: 16px 20px;
       border-top: 1px solid var(--panel-border);
@@ -190,9 +197,8 @@
       font-weight: 700;
       cursor: pointer;
     }
-    .btn-save-dl:hover { color: #FFF; background: var(--panel-surface); }
 
-    /* CANVAS PREVIEW */
+    /* CANVAS */
     .studio-canvas {
       flex: 1;
       background: #030712;
@@ -200,7 +206,6 @@
       flex-direction: column;
       position: relative;
     }
-
     .canvas-topbar {
       height: 52px;
       background: #090D16;
@@ -228,7 +233,6 @@
       cursor: pointer;
     }
     .device-btn.active { background: #334155; color: #FFF; }
-
     .canvas-viewport {
       flex: 1;
       overflow-y: auto;
@@ -236,7 +240,6 @@
       justify-content: center;
       padding: 30px 20px;
     }
-
     .device-frame {
       width: 100%;
       max-width: 480px;
@@ -250,7 +253,6 @@
     }
     .device-frame.desktop { max-width: 1100px; border-radius: 12px; }
 
-    /* EDITABLE HIGHLIGHT */
     [contenteditable="true"] {
       outline: 1px dashed transparent;
       transition: outline 0.15s, background 0.15s;
@@ -277,24 +279,24 @@
       <div style="font-size: 11px; color: var(--green); font-weight: 700;">● LIVE SYNC</div>
     </div>
 
+    <!-- TABS -->
     <div class="studio-tabs">
-      <button class="studio-tab-btn active" onclick="switchTab('tab-general')">General</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-bundles')">Bundles</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-gallery')">Images</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-reviews')">Reviews</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-faqs')">FAQs</button>
-      <button class="studio-tab-btn" onclick="switchTab('tab-style')">Design</button>
+      <button class="studio-tab-btn active" id="btn-tab-general" onclick="switchTab('tab-general', this)">General</button>
+      <button class="studio-tab-btn" id="btn-tab-bundles" onclick="switchTab('tab-bundles', this)">Bundles</button>
+      <button class="studio-tab-btn" id="btn-tab-gallery" onclick="switchTab('tab-gallery', this)">Images</button>
+      <button class="studio-tab-btn" id="btn-tab-reviews" onclick="switchTab('tab-reviews', this)">Reviews</button>
+      <button class="studio-tab-btn" id="btn-tab-faqs" onclick="switchTab('tab-faqs', this)">FAQs</button>
     </div>
 
     <!-- 1. GENERAL TAB -->
-    <div class="studio-content" id="tab-general">
+    <div class="studio-content active-tab-content" id="tab-general">
       <div class="field-group">
-        <label class="field-label">Brand Name (Header / Footer)</label>
-        <input type="text" class="field-input" id="inp-brand" value="AURA GIFTS" oninput="updateBrand(this.value)">
+        <label class="field-label">Brand Name (Header / Title)</label>
+        <input type="text" class="field-input" id="inp-brand" value="AURA GIFTS" oninput="syncField('brandLogo', this.value)">
       </div>
 
       <div class="field-group">
-        <label class="field-label">Announcement Bar Promo Text</label>
+        <label class="field-label">Announcement Promo Text</label>
         <input type="text" class="field-input" id="inp-promo" value="✨ 50% OFF FLASH SALE ENDING IN:" oninput="syncField('promoText', this.value)">
       </div>
 
@@ -329,12 +331,12 @@
 
       <div class="field-group">
         <label class="field-label">Global Checkout URL (Fallback)</label>
-        <input type="text" class="field-input" id="globalCheckout" value="#" placeholder="https://your-shopify-store/cart/...">
+        <input type="text" class="field-input" id="globalCheckout" value="#" placeholder="https://your-store/checkout">
       </div>
     </div>
 
     <!-- 2. BUNDLES TAB -->
-    <div class="studio-content" id="tab-bundles" style="display:none;">
+    <div class="studio-content" id="tab-bundles">
       <div class="toggle-row">
         <span>Show Bundles Section</span>
         <label class="switch">
@@ -347,13 +349,13 @@
     </div>
 
     <!-- 3. GALLERY TAB -->
-    <div class="studio-content" id="tab-gallery" style="display:none;">
-      <div style="font-size: 12px; color: var(--panel-muted); margin-bottom: 4px;">Update product photos (URL):</div>
+    <div class="studio-content" id="tab-gallery">
+      <div style="font-size: 12px; color: var(--panel-muted); margin-bottom: 4px;">Update product photos:</div>
       <div id="gallery-controls" style="display:flex; flex-direction:column; gap:12px;"></div>
     </div>
 
     <!-- 4. REVIEWS TAB -->
-    <div class="studio-content" id="tab-reviews" style="display:none;">
+    <div class="studio-content" id="tab-reviews">
       <div class="toggle-row">
         <span>Show Reviews Section</span>
         <label class="switch">
@@ -366,7 +368,7 @@
     </div>
 
     <!-- 5. FAQS TAB -->
-    <div class="studio-content" id="tab-faqs" style="display:none;">
+    <div class="studio-content" id="tab-faqs">
       <div class="toggle-row">
         <span>Show FAQs Section</span>
         <label class="switch">
@@ -378,25 +380,7 @@
       <button class="btn-add-item" onclick="addNewFaq()">+ Add FAQ Question</button>
     </div>
 
-    <!-- 6. DESIGN TAB -->
-    <div class="studio-content" id="tab-style" style="display:none;">
-      <div class="field-group">
-        <label class="field-label">Accent Theme Color</label>
-        <div style="display:flex; gap:8px;">
-          <button onclick="setThemeColor('#E11D48')" style="flex:1; height:36px; background:#E11D48; border:none; border-radius:6px; cursor:pointer;"></button>
-          <button onclick="setThemeColor('#2563EB')" style="flex:1; height:36px; background:#2563EB; border:none; border-radius:6px; cursor:pointer;"></button>
-          <button onclick="setThemeColor('#059669')" style="flex:1; height:36px; background:#059669; border:none; border-radius:6px; cursor:pointer;"></button>
-          <button onclick="setThemeColor('#7C3AED')" style="flex:1; height:36px; background:#7C3AED; border:none; border-radius:6px; cursor:pointer;"></button>
-          <button onclick="setThemeColor('#D97706')" style="flex:1; height:36px; background:#D97706; border:none; border-radius:6px; cursor:pointer;"></button>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Custom HEX Color</label>
-        <input type="color" class="field-input" style="height:44px; padding:2px;" onchange="setThemeColor(this.value)">
-      </div>
-    </div>
-
-    <!-- FOOTER ACTIONS -->
+    <!-- FOOTER -->
     <div class="studio-footer">
       <button class="btn-publish-gh" onclick="publishLiveGitHub()">
         🚀 1-Click Publish Live
@@ -411,8 +395,8 @@
   <main class="studio-canvas">
     <div class="canvas-topbar">
       <div class="device-switcher">
-        <button class="device-btn active" onclick="setDevice('mobile')">📱 Mobile View</button>
-        <button class="device-btn" onclick="setDevice('desktop')">💻 Desktop View</button>
+        <button class="device-btn active" onclick="setDevice('mobile', this)">📱 Mobile View</button>
+        <button class="device-btn" onclick="setDevice('desktop', this)">💻 Desktop View</button>
       </div>
       <div style="font-size: 12px; color: var(--panel-muted);">
         ✨ <b>Click any text</b> on the page to edit directly
@@ -442,7 +426,7 @@
         <!-- Main Content Area -->
         <div style="padding:20px 16px;">
           
-          <!-- Product Gallery -->
+          <!-- Gallery -->
           <div style="margin-bottom:18px;">
             <div style="width:100%; aspect-ratio:1/1; background:#FAFAFA; border-radius:14px; overflow:hidden; border:1px solid #E5E7EB; margin-bottom:10px;">
               <img id="mainImg" src="https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80" style="width:100%; height:100%; object-fit:cover;">
@@ -512,7 +496,6 @@
   </main>
 
   <script>
-    // Global Studio State
     let activeBundleIdx = 1;
     const store = {
       bundles: [
@@ -537,9 +520,27 @@
       ]
     };
 
-    // Render Canvas Components
+    // TAB SWITCHER - Fixed Direct Handler
+    function switchTab(tabId, btnElement) {
+      document.querySelectorAll('.studio-content').forEach(el => {
+        el.classList.remove('active-tab-content');
+      });
+      document.querySelectorAll('.studio-tab-btn').forEach(b => {
+        b.classList.remove('active');
+      });
+      
+      const targetContent = document.getElementById(tabId);
+      if (targetContent) {
+        targetContent.classList.add('active-tab-content');
+      }
+      if (btnElement) {
+        btnElement.classList.add('active');
+      }
+    }
+
+    // Render Canvas
     function renderPreview() {
-      // 1. Render Bundles
+      // Bundles
       const bContainer = document.getElementById('bundleContainer');
       bContainer.innerHTML = '';
       store.bundles.forEach((b, idx) => {
@@ -564,7 +565,6 @@
         `;
       });
 
-      // Update Main Price with active bundle
       if (store.bundles[activeBundleIdx]) {
         const sel = store.bundles[activeBundleIdx];
         document.getElementById('priceCurrent').innerText = `$${sel.price}`;
@@ -572,7 +572,7 @@
         document.getElementById('badgeSave').innerText = sel.save;
       }
 
-      // 2. Render Gallery Thumbnails
+      // Gallery Thumbnails
       const strip = document.getElementById('thumbStrip');
       strip.innerHTML = '';
       store.gallery.forEach((url, i) => {
@@ -583,7 +583,7 @@
         `;
       });
 
-      // 3. Render Reviews
+      // Reviews
       const rList = document.getElementById('reviewsList');
       rList.innerHTML = '';
       store.reviews.forEach(r => {
@@ -599,7 +599,7 @@
         `;
       });
 
-      // 4. Render FAQs
+      // FAQs
       const fList = document.getElementById('faqList');
       fList.innerHTML = '';
       store.faqs.forEach(f => {
@@ -617,9 +617,9 @@
       renderPreview();
     }
 
-    // Render Sidebar Controls
+    // Sidebar Controls Builder
     function renderSidebarControls() {
-      // 1. Bundle Controls
+      // Bundles Controls
       const bCtrl = document.getElementById('bundle-list-controls');
       bCtrl.innerHTML = '';
       store.bundles.forEach((b, idx) => {
@@ -628,18 +628,17 @@
             <button class="btn-delete-card" onclick="deleteBundle(${idx})">✕</button>
             <div class="field-label" style="color:#38BDF8;">Bundle #${idx + 1}</div>
             <input type="text" class="field-input" value="${b.title}" placeholder="Bundle Title" oninput="store.bundles[${idx}].title=this.value; renderPreview();">
-            <input type="text" class="field-input" value="${b.sub}" placeholder="Sub text (e.g. Free Gift)" oninput="store.bundles[${idx}].sub=this.value; renderPreview();">
+            <input type="text" class="field-input" value="${b.sub}" placeholder="Sub text" oninput="store.bundles[${idx}].sub=this.value; renderPreview();">
             <div style="display:flex; gap:6px;">
               <input type="text" class="field-input" value="${b.price}" placeholder="Price" oninput="store.bundles[${idx}].price=this.value; renderPreview();">
               <input type="text" class="field-input" value="${b.orig}" placeholder="Was" oninput="store.bundles[${idx}].orig=this.value; renderPreview();">
               <input type="text" class="field-input" value="${b.ribbon}" placeholder="Ribbon Tag" oninput="store.bundles[${idx}].ribbon=this.value; renderPreview();">
             </div>
-            <input type="text" class="field-input" value="${b.checkout || ''}" placeholder="Checkout Link for this bundle" oninput="store.bundles[${idx}].checkout=this.value;">
           </div>
         `;
       });
 
-      // 2. Gallery Controls
+      // Gallery Controls
       const gCtrl = document.getElementById('gallery-controls');
       gCtrl.innerHTML = '';
       store.gallery.forEach((url, idx) => {
@@ -653,20 +652,20 @@
       });
       gCtrl.innerHTML += `<button class="btn-add-item" onclick="addNewGalleryPhoto()">+ Add Photo URL</button>`;
 
-      // 3. Reviews Controls
+      // Reviews Controls
       const rCtrl = document.getElementById('reviews-controls');
       rCtrl.innerHTML = '';
       store.reviews.forEach((r, idx) => {
         rCtrl.innerHTML += `
           <div class="card-editor">
             <button class="btn-delete-card" onclick="deleteReview(${idx})">✕</button>
-            <input type="text" class="field-input" value="${r.user}" placeholder="Name & Country" oninput="store.reviews[${idx}].user=this.value; renderPreview();">
-            <textarea class="field-textarea" placeholder="Review comment" oninput="store.reviews[${idx}].text=this.value; renderPreview();">${r.text}</textarea>
+            <input type="text" class="field-input" value="${r.user}" placeholder="Name" oninput="store.reviews[${idx}].user=this.value; renderPreview();">
+            <textarea class="field-textarea" placeholder="Comment" oninput="store.reviews[${idx}].text=this.value; renderPreview();">${r.text}</textarea>
           </div>
         `;
       });
 
-      // 4. FAQ Controls
+      // FAQ Controls
       const fCtrl = document.getElementById('faqs-controls');
       fCtrl.innerHTML = '';
       store.faqs.forEach((f, idx) => {
@@ -680,7 +679,7 @@
       });
     }
 
-    // CRUD Handlers
+    // CRUD
     function addNewBundle() {
       store.bundles.push({ qty: 1, title: "Special Bundle Set", sub: "Limited Holiday Offer", price: "49.99", orig: "99.99", ribbon: "", save: "Save 50%", checkout: "" });
       renderSidebarControls();
@@ -693,7 +692,6 @@
       renderSidebarControls();
       renderPreview();
     }
-
     function addNewGalleryPhoto() {
       const url = prompt("Enter Image URL:", "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80");
       if (url) {
@@ -708,9 +706,8 @@
       renderSidebarControls();
       renderPreview();
     }
-
     function addNewReview() {
-      store.reviews.push({ user: "Happy Customer 🇺🇸", text: "Quality is beyond expectations. Fast tracked shipping!" });
+      store.reviews.push({ user: "Customer Name 🇺🇸", text: "Great product quality!" });
       renderSidebarControls();
       renderPreview();
     }
@@ -719,9 +716,8 @@
       renderSidebarControls();
       renderPreview();
     }
-
     function addNewFaq() {
-      store.faqs.push({ q: "What is the return policy?", a: "We offer an effortless 30-day money back guarantee on all orders." });
+      store.faqs.push({ q: "What is your return policy?", a: "30-day money-back guarantee." });
       renderSidebarControls();
       renderPreview();
     }
@@ -731,42 +727,22 @@
       renderPreview();
     }
 
-    // General Sync & Tabs
-    function switchTab(tabId) {
-      document.querySelectorAll('.studio-content').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(tabId).style.display = 'flex';
-      event.target.classList.add('active');
-    }
-
     function syncField(id, val) {
       const el = document.getElementById(id);
       if (el) el.innerText = val;
     }
-
-    function updateBrand(val) {
-      syncField('brandLogo', val);
-    }
-
     function toggleEl(id, show) {
       const el = document.getElementById(id);
       if (el) el.style.display = show ? 'block' : 'none';
     }
-
-    function setThemeColor(hex) {
-      document.documentElement.style.setProperty('--brand-accent', hex);
-      renderPreview();
-    }
-
-    function setDevice(type) {
+    function setDevice(type, btn) {
       document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+      btn.classList.add('active');
       const frame = document.getElementById('liveFrame');
       if (type === 'desktop') frame.classList.add('desktop');
       else frame.classList.remove('desktop');
     }
 
-    // Export HTML Generator
     function generateCleanPage() {
       const liveHTML = document.getElementById('liveFrame').innerHTML;
       return `<!DOCTYPE html>
@@ -779,10 +755,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --brand-accent: ${getComputedStyle(document.documentElement).getPropertyValue('--brand-accent') || '#E11D48'}; }
+    :root { --brand-accent: #E11D48; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background: #FAFAFA; color: #111827; }
-    .store-shell { width: 100%; max-width: 520px; margin: 0 auto; background: #FFF; box-shadow: 0 4px 20px rgba(0,0,0,0.05); min-height: 100vh; }
+    .store-shell { width: 100%; max-width: 520px; margin: 0 auto; background: #FFF; min-height: 100vh; }
   </style>
 </head>
 <body>
@@ -802,36 +778,33 @@
       a.click();
     }
 
-    // 1-Click Live Publish to GitHub API
     async function publishLiveGitHub() {
       let token = localStorage.getItem('gh_studio_pat');
       if (!token) {
-        token = prompt("Enter your GitHub Personal Access Token to publish directly to GitHub:");
+        token = prompt("Enter your GitHub Personal Access Token to publish directly:");
         if (!token) return;
         localStorage.setItem('gh_studio_pat', token);
       }
 
-      const repo = 'xboom96/gift-landing-page'; // Your Repo
+      const repo = 'xboom96/gift-landing-page';
       const filePath = 'index.html';
       const cleanHtml = generateCleanPage();
 
       try {
-        // 1. Get current file SHA
-        const getRes = await fetch(\`https://api.github.com/repos/\${repo}/contents/\${filePath}\`, {
-          headers: { Authorization: \`token \${token}\` }
+        const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+          headers: { Authorization: `token ${token}` }
         });
         const fileData = await getRes.json();
         const sha = fileData.sha;
 
-        // 2. Commit update
-        const putRes = await fetch(\`https://api.github.com/repos/\${repo}/contents/\${filePath}\`, {
+        const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
           method: 'PUT',
           headers: {
-            Authorization: \`token \${token}\`,
+            Authorization: `token ${token}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Live update from AURA Studio Studio V2',
+            message: 'Live publish from Studio V2',
             content: btoa(unescape(encodeURIComponent(cleanHtml))),
             sha: sha
           })
@@ -840,7 +813,7 @@
         if (putRes.ok) {
           alert('🚀 SUCCESS! Your changes have been pushed live to GitHub and Vercel will update in 15 seconds!');
         } else {
-          throw new Error('Push failed. Check your token.');
+          throw new Error('Push failed.');
         }
       } catch (err) {
         alert('GitHub sync failed. Downloading index.html directly instead so you can drag-drop it.');
@@ -848,7 +821,6 @@
       }
     }
 
-    // Init
     document.addEventListener('DOMContentLoaded', () => {
       renderSidebarControls();
       renderPreview();
