@@ -15,71 +15,47 @@ collections:
         label: "Full Page Controls"
         name: "settings"
         fields:
-          # --- Brand & Header ---
           - { label: "Brand Logo Text", name: "logo_text", widget: "string", default: "AURA GIFTS" }
           - { label: "Announcement Bar Text", name: "promo_text", widget: "string", default: "✨ 50% OFF FLASH SALE ENDING IN:" }
           - { label: "Live Proof Bar Text", name: "live_proof_text", widget: "string", default: "23 shoppers viewing right now | 148 orders placed today" }
-
-          # --- Product Details ---
-          - { label: "Product Title", name: "product_title", widget: "string", default: "Magnetic Levitating Santa Sleigh" }
+          - { label: "Product Title", name: "product_title", widget: "string", default: "Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)" }
           - { label: "Review Summary Text", name: "review_summary", widget: "string", default: "★★★★★ 4.9/5 (1,420+ Verified Reviews)" }
           - { label: "Discount Price ($)", name: "price_current", widget: "string", default: "34.99" }
           - { label: "Original Price ($)", name: "price_original", widget: "string", default: "69.99" }
           - { label: "Stock Remaining Count", name: "stock_remaining", widget: "number", default: 5 }
           - { label: "CTA Button Text", name: "cta_text", widget: "string", default: "CLAIM OFFER & FREE DELIVERY" }
-
-          # --- Gallery Images ---
+          - { label: "Shopify / Checkout URL", name: "checkout_url", widget: "string", default: "#" }
           - label: "Product Gallery Images"
             name: "gallery_images"
             widget: "list"
-            collapsed: false
             fields:
-              - { label: "Image URL or Upload", name: "image_url", widget: "image" }
-
-          # --- Quantity Bundles (Easy Edit) ---
-          # --- Bundle 1 ---
-          - { label: "📦 Bundle 1 - Title", name: "b1_title", widget: "string", default: "Buy 1 Set (Holiday Starter)" }
-          - { label: "📦 Bundle 1 - Price ($)", name: "b1_price", widget: "string", default: "34.99" }
-          - { label: "📦 Bundle 1 - Original Price ($)", name: "b1_orig", widget: "string", default: "69.99" }
-          - { label: "📦 Bundle 1 - Subtext", name: "b1_sub", widget: "string", default: "Standard Gift Packaging Included" }
-
-          # --- Bundle 2 ---
-          - { label: "📦 Bundle 2 - Title", name: "b2_title", widget: "string", default: "Buy 2 Sets (Family & Gifting)" }
-          - { label: "📦 Bundle 2 - Price ($)", name: "b2_price", widget: "string", default: "59.99" }
-          - { label: "📦 Bundle 2 - Original Price ($)", name: "b2_orig", widget: "string", default: "139.98" }
-          - { label: "📦 Bundle 2 - Subtext", name: "b2_sub", widget: "string", default: "Free Luxury Gift Bag + Save Extra $10" }
-
-          # --- Bundle 3 ---
-          - { label: "📦 Bundle 3 - Title", name: "b3_title", widget: "string", default: "Buy 3 Sets (Ultimate Home Decor)" }
-          - { label: "📦 Bundle 3 - Price ($)", name: "b3_price", widget: "string", default: "79.99" }
-          - { label: "📦 Bundle 3 - Original Price ($)", name: "b3_orig", widget: "string", default: "209.97" }
-          - { label: "📦 Bundle 3 - Subtext", name: "b3_sub", widget: "string", default: "Free VIP Express Tracked Delivery" }
-
-          # --- Feature Bullets ---
-          - label: "✔ Feature Bullets"
+              - { label: "Image URL", name: "image_url", widget: "string" }
+          - label: "Feature Bullets"
             name: "feature_bullets"
             widget: "list"
-            collapsed: false
-            summary: "{{fields.text}}"
             fields:
               - { label: "Bullet Text", name: "text", widget: "string" }
-
-          # --- Customer Reviews ---
-          - label: "⭐ Customer Reviews"
+          - label: "Bundles"
+            name: "bundles"
+            widget: "list"
+            fields:
+              - { label: "Quantity", name: "qty", widget: "number" }
+              - { label: "Bundle Title", name: "title", widget: "string" }
+              - { label: "Sub Text", name: "sub", widget: "string" }
+              - { label: "Total Price ($)", name: "total_price", widget: "number", value_type: "float" }
+              - { label: "Original Price ($)", name: "orig_price", widget: "number", value_type: "float" }
+              - { label: "Save Text", name: "save_text", widget: "string" }
+              - { label: "Ribbon (e.g. MOST POPULAR)", name: "ribbon", widget: "string", required: false }
+              - { label: "Checkout URL", name: "checkout_url", widget: "string", required: false }
+          - label: "Customer Reviews"
             name: "reviews"
             widget: "list"
-            collapsed: true
-            summary: "{{fields.user}}"
             fields:
-              - { label: "Customer Name & Country", name: "user", widget: "string" }
-              - { label: "Review Comment", name: "comment", widget: "text" }
-
-          # --- FAQs ---
-          - label: "❓ Frequently Asked Questions"
+              - { label: "Customer Name", name: "user", widget: "string" }
+              - { label: "Comment", name: "comment", widget: "text" }
+          - label: "Frequently Asked Questions"
             name: "faqs"
             widget: "list"
-            collapsed: true
-            summary: "{{fields.question}}"
             fields:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
