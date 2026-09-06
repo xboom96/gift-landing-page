@@ -6,6 +6,132 @@
     <title>Store Content Manager</title>
   </head>
   <body>
+    <!-- Decap CMS Core -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <script>
+      // Live Visual Preview Component
+      const LandingPagePreview = createClass({
+        render: function() {
+          const entry = this.props.entry;
+          
+          // Get values or fallback
+          const logo = entry.getIn(['data', 'logo_text']) || 'AURA GIFTS';
+          const promo = entry.getIn(['data', 'promo_text']) || '✨ 50% OFF FLASH SALE ENDING IN:';
+          const liveProof = entry.getIn(['data', 'live_proof_text']) || '';
+          const title = entry.getIn(['data', 'product_title']) || '';
+          const curPrice = entry.getIn(['data', 'price_current']) || '34.99';
+          const origPrice = entry.getIn(['data', 'price_original']) || '69.99';
+          const stock = entry.getIn(['data', 'stock_remaining']) || 5;
+          const cta = entry.getIn(['data', 'cta_text']) || 'CLAIM OFFER & FREE DELIVERY';
+
+          // Arrays
+          const gallery = entry.getIn(['data', 'gallery_images']);
+          const bullets = entry.getIn(['data', 'feature_bullets']);
+          const bundles = entry.getIn(['data', 'bundles']);
+          const reviews = entry.getIn(['data', 'reviews']);
+          const faqs = entry.getIn(['data', 'faqs']);
+
+          const firstImg = gallery && gallery.size > 0 
+            ? this.props.getAsset(gallery.get(0).get('image_url')) 
+            : 'https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80';
+
+          return h('div', { style: { fontFamily: "'Plus Jakarta Sans', sans-serif", color: '#111827', background: '#FAFAFA', paddingBottom: '40px' } },
+            
+            // Promo Bar
+            h('div', { style: { background: '#000', color: '#FFF', padding: '10px', fontSize: '11px', fontWeight: 'bold', textAlign: 'center' } },
+              promo, ' ', h('span', { style: { color: '#FBBF24' } }, '02:14:32')
+            ),
+
+            // Header
+            h('div', { style: { background: '#FFF', padding: '16px', textAlign: 'center', fontWeight: '800', fontSize: '18px', borderBottom: '1px solid #E5E7EB', letterSpacing: '2px' } },
+              logo
+            ),
+
+            // Live Proof
+            liveProof ? h('div', { style: { background: '#F0FDF4', color: '#166534', padding: '8px', fontSize: '12px', fontWeight: '600', textAlign: 'center', borderBottom: '1px solid #DCFCE7' } },
+              '🟢 ' + liveProof
+            ) : null,
+
+            // Main Content Box
+            h('div', { style: { maxWidth: '500px', margin: '20px auto', background: '#FFF', padding: '16px', borderRadius: '14px', border: '1px solid #E5E7EB' } },
+              
+              // Image
+              h('div', { style: { width: '100%', height: '320px', borderRadius: '10px', overflow: 'hidden', marginBottom: '14px', background: '#F3F4F6' } },
+                h('img', { src: firstImg.toString(), style: { width: '100%', height: '100%', objectFit: 'cover' } })
+              ),
+
+              // Title & Price
+              h('div', { style: { fontSize: '12px', color: '#F59E0B', fontWeight: 'bold', marginBottom: '4px' } }, '★★★★★ 4.9/5 Verified'),
+              h('h1', { style: { fontSize: '18px', fontWeight: '800', lineHeight: '1.3', marginBottom: '10px' } }, title),
+              
+              h('div', { style: { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' } },
+                h('span', { style: { fontSize: '24px', fontWeight: '800', color: '#E11D48' } }, '$' + curPrice),
+                h('span', { style: { fontSize: '15px', color: '#6B7280', textDecoration: 'line-through' } }, '$' + origPrice),
+                h('span', { style: { background: '#FEE2E2', color: '#E11D48', padding: '2px 8px', borderRadius: '20px', fontSize: '11px', fontWeight: 'bold' } }, 'SALE')
+              ),
+
+              // Stock Urgency
+              h('div', { style: { background: '#FFFBEB', border: '1px solid #FEF3C7', padding: '8px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', color: '#92400E', marginBottom: '16px' } },
+                '🔥 Only ' + stock + ' Units Remaining!'
+              ),
+
+              // Bundles Preview
+              bundles ? h('div', { style: { marginBottom: '16px' } },
+                bundles.map((b, idx) => {
+                  return h('div', { key: idx, style: { border: idx === 1 ? '2px solid #111' : '1px solid #E5E7EB', borderRadius: '10px', padding: '10px 12px', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: idx === 1 ? '#FAFAFA' : '#FFF' } },
+                    h('div', null,
+                      h('div', { style: { fontSize: '13px', fontWeight: '800' } }, b.get('title')),
+                      h('div', { style: { fontSize: '11px', color: '#059669', fontWeight: '600' } }, b.get('sub'))
+                    ),
+                    h('div', { style: { fontSize: '14px', fontWeight: '800' } }, '$' + b.get('total_price'))
+                  );
+                })
+              ) : null,
+
+              // CTA Button
+              h('button', { style: { width: '100%', padding: '15px', background: '#111827', color: '#FFF', borderRadius: '10px', fontSize: '13px', fontWeight: '800', border: 'none', marginBottom: '14px' } },
+                cta
+              ),
+
+              // Bullets
+              bullets ? h('div', { style: { background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '12px', fontSize: '12px', lineHeight: '1.8' } },
+                bullets.map((item, i) => h('div', { key: i }, '✔ ' + item.get('text')))
+              ) : null
+            ),
+
+            // Reviews Preview
+            reviews ? h('div', { style: { maxWidth: '500px', margin: '20px auto', padding: '0 16px' } },
+              h('h3', { style: { fontSize: '14px', fontWeight: '800', marginBottom: '10px', textTransform: 'uppercase' } }, 'Customer Reviews'),
+              reviews.map((r, i) => {
+                return h('div', { key: i, style: { background: '#FFF', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '12px', marginBottom: '8px', fontSize: '12px' } },
+                  h('div', { style: { fontWeight: '700', marginBottom: '4px', display: 'flex', justifyContent: 'space-between' } }, 
+                    h('span', null, r.get('user')),
+                    h('span', { style: { color: '#059669' } }, '✔ Verified')
+                  ),
+                  h('div', { style: { color: '#F59E0B', marginBottom: '4px' } }, '★★★★★'),
+                  h('div', { style: { color: '#4B5563' } }, '"' + r.get('comment') + '"')
+                );
+              })
+            ) : null,
+
+            // FAQ Preview
+            faqs ? h('div', { style: { maxWidth: '500px', margin: '20px auto', padding: '0 16px' } },
+              h('h3', { style: { fontSize: '14px', fontWeight: '800', marginBottom: '10px', textTransform: 'uppercase' } }, 'Frequently Asked Questions'),
+              faqs.map((f, i) => {
+                return h('div', { key: i, style: { background: '#FFF', borderBottom: '1px solid #E5E7EB', padding: '10px 0', fontSize: '12px' } },
+                  h('div', { style: { fontWeight: '700', color: '#111827', marginBottom: '4px' } }, '☑ ' + f.get('question')),
+                  h('div', { style: { color: '#6B7280' } }, f.get('answer'))
+                );
+              })
+            ) : null
+
+          );
+        }
+      });
+
+      // Register the live template to our settings file
+      CMS.registerPreviewTemplate('settings', LandingPagePreview);
+    </script>
   </body>
 </html>
