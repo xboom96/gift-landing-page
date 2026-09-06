@@ -1,29 +1,8 @@
 backend:
   name: github
-  repo: xboom96/gift-store
+  repo: xboom96/gift-landing-page
   branch: main
+  base_url: https://decap-cms-oauth.vercel.app
 
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
-
-collections:
-  - name: "landing_page"
-    label: "Website Content"
-    files:
-      - file: "content/settings.json"
-        label: "Full Page Controls"
-        name: "settings"
-        fields:
-          - { label: "Brand Logo Text", name: "logo_text", widget: "string", default: "AURA GIFTS" }
-          - { label: "Announcement Bar Text", name: "promo_text", widget: "string", default: "✨ 50% OFF FLASH SALE ENDING IN:" }
-          - { label: "Product Title", name: "product_title", widget: "string", default: "Magnetic Levitating Santa Sleigh" }
-          - { label: "Discount Price ($)", name: "price_current", widget: "string", default: "34.99" }
-          - { label: "Original Price ($)", name: "price_original", widget: "string", default: "69.99" }
-          - { label: "Stock Remaining Count", name: "stock_remaining", widget: "number", default: 5 }
-          - { label: "CTA Button Text", name: "cta_text", widget: "string", default: "CLAIM OFFER & FREE DELIVERY" }
-          - label: "Customer Reviews"
-            name: "reviews"
-            widget: "list"
-            fields:
-              - { label: "Customer Name", name: "user", widget: "string" }
-              - { label: "Comment", name: "comment", widget: "text" }
