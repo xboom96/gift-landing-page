@@ -1,169 +1,580 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Store Content Manager</title>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA™ Visual Page Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --sidebar-w: 360px;
+      --panel-bg: #0F172A;
+      --panel-surface: #1E293B;
+      --panel-border: #334155;
+      --panel-text: #F8FAFC;
+      --panel-muted: #94A3B8;
+      --accent: #2563EB;
+      --accent-hover: #1D4ED8;
+      --green: #10B981;
+      --danger: #EF4444;
+    }
 
-    <script>
-      // 1. Inject Fonts & Full Styles into Preview Window
-      CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
-      
-      const themeStyles = `
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: #FFFFFF; color: #111827; -webkit-font-smoothing: antialiased; }
-        .promo-bar { background: #000; color: #FFF; font-size: 11px; font-weight: 700; text-align: center; padding: 10px; }
-        .promo-timer { color: #FBBF24; font-weight: 800; margin-left: 4px; }
-        .header { display: flex; align-items: center; justify-content: center; padding: 16px; border-bottom: 1px solid #E5E7EB; background: #FFF; }
-        .logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
-        .live-proof { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; font-size: 12px; font-weight: 600; background: #F0FDF4; color: #166534; border-bottom: 1px solid #DCFCE7; }
-        .pulse-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; }
-        .wrapper { width: 100%; max-width: 480px; margin: 0 auto; padding: 20px 16px; }
-        .main-stage { width: 100%; aspect-ratio: 1/1; background: #FAFAFA; border-radius: 14px; overflow: hidden; border: 1px solid #E5E7EB; margin-bottom: 12px; }
-        .main-stage img { width: 100%; height: 100%; object-fit: cover; }
-        .reviews-count { font-size: 13px; font-weight: 700; color: #F59E0B; margin-bottom: 6px; }
-        .prod-title { font-size: 22px; font-weight: 800; line-height: 1.3; margin-bottom: 12px; }
-        .price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-        .price-current { font-size: 28px; font-weight: 800; color: #E11D48; }
-        .price-original { font-size: 16px; color: #6B7280; text-decoration: line-through; }
-        .save-badge { background: #FEE2E2; color: #E11D48; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 20px; text-transform: uppercase; }
-        .urgency-box { background: #FFFBEB; border: 1px solid #FEF3C7; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
-        .urgency-txt { font-size: 13px; font-weight: 700; color: #92400E; display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .progress-bar-bg { width: 100%; height: 6px; background: #FDE68A; border-radius: 10px; overflow: hidden; }
-        .progress-bar-fill { width: 86%; height: 100%; background: #D97706; }
-        .bundle-card { background: #FFFFFF; border: 2px solid #E5E7EB; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .bundle-card.selected { border-color: #111827; background: #FAFAFA; }
-        .fallback-btn { width: 100%; padding: 16px; background: #111827; color: #FFFFFF; border-radius: 12px; font-size: 14px; font-weight: 800; border: none; margin-bottom: 20px; }
-        .bullets-card { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 14px; margin-bottom: 20px; font-size: 13px; line-height: 1.8; }
-        .bullets-card span { color: #059669; font-weight: 800; margin-right: 6px; }
-        .review-item { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 14px; font-size: 12.5px; line-height: 1.5; margin-bottom: 12px; }
-        .faq-item { border-bottom: 1px solid #E5E7EB; padding: 12px 0; font-size: 13px; }
-      `;
-      CMS.registerPreviewStyle(themeStyles, { raw: true });
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { display: flex; height: 100vh; overflow: hidden; background: #020617; color: var(--panel-text); }
 
-      // 2. High-Fidelity Interactive Preview Template
-      const LiveVisualCustomizer = createClass({
-        render: function() {
-          const entry = this.props.entry;
-          
-          const logo = entry.getIn(['data', 'logo_text']) || 'AURA GIFTS';
-          const promo = entry.getIn(['data', 'promo_text']) || '✨ 50% OFF FLASH SALE ENDING IN:';
-          const liveProof = entry.getIn(['data', 'live_proof_text']) || '';
-          const title = entry.getIn(['data', 'product_title']) || '';
-          const revSummary = entry.getIn(['data', 'review_summary']) || '★★★★★ 4.9/5';
-          const curPrice = entry.getIn(['data', 'price_current']) || '34.99';
-          const origPrice = entry.getIn(['data', 'price_original']) || '69.99';
-          const stock = entry.getIn(['data', 'stock_remaining']) || 5;
-          const cta = entry.getIn(['data', 'cta_text']) || 'CLAIM OFFER';
+    /* --- SIDEBAR --- */
+    .studio-sidebar {
+      width: var(--sidebar-w);
+      background: var(--panel-bg);
+      border-right: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex-shrink: 0;
+      z-index: 50;
+    }
 
-          const gallery = entry.getIn(['data', 'gallery_images']);
-          const bullets = entry.getIn(['data', 'feature_bullets']);
-          const bundles = entry.getIn(['data', 'bundles']);
-          const reviews = entry.getIn(['data', 'reviews']);
-          const faqs = entry.getIn(['data', 'faqs']);
+    .studio-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .studio-brand { font-size: 14px; font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+    .studio-brand span { background: var(--accent); padding: 3px 7px; border-radius: 6px; font-size: 10px; }
 
-          let heroImg = 'https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80';
-          if (gallery && gallery.size > 0 && gallery.get(0).get('image_url')) {
-            heroImg = this.props.getAsset(gallery.get(0).get('image_url')).toString();
-          }
+    .studio-tabs {
+      display: flex;
+      padding: 8px 12px;
+      gap: 6px;
+      background: #090D16;
+      border-bottom: 1px solid var(--panel-border);
+      overflow-x: auto;
+    }
+    .studio-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--panel-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .studio-tab-btn.active {
+      background: var(--panel-surface);
+      color: #FFF;
+    }
 
-          return h('div', null,
-            // Top Bar
-            h('div', { className: 'promo-bar' },
-              promo, h('span', { className: 'promo-timer' }, ' 02:14:32')
-            ),
+    .studio-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-            // Header Logo
-            h('div', { className: 'header' },
-              h('div', { className: 'logo' }, logo)
-            ),
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--panel-muted); }
+    .field-input, .field-textarea {
+      background: var(--panel-surface);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #FFF;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field-input:focus, .field-textarea:focus { border-color: var(--accent); }
+    .field-textarea { resize: vertical; min-height: 70px; }
 
-            // Live Proof Bar
-            liveProof ? h('div', { className: 'live-proof' },
-              h('div', { className: 'pulse-dot' }),
-              h('span', null, liveProof)
-            ) : null,
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--panel-surface);
+      border-radius: 8px;
+      border: 1px solid var(--panel-border);
+    }
+    .toggle-row span { font-size: 12.5px; font-weight: 600; }
+    .switch {
+      position: relative;
+      width: 38px;
+      height: 22px;
+      display: inline-block;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #475569; transition: .3s; border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--green); }
+    input:checked + .slider:before { transform: translateX(16px); }
 
-            // Main Product Frame
-            h('div', { className: 'wrapper' },
-              // Main Image
-              h('div', { className: 'main-stage' },
-                h('img', { src: heroImg })
-              ),
+    .studio-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--panel-border);
+      display: flex;
+      gap: 10px;
+      background: var(--panel-bg);
+    }
+    .btn-save {
+      flex: 1;
+      padding: 12px;
+      background: var(--green);
+      color: #FFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-save:hover { background: #059669; }
 
-              // Title & Ratings
-              h('div', { className: 'reviews-count' }, revSummary),
-              h('h1', { className: 'prod-title' }, title),
+    /* --- CANVAS PREVIEW AREA --- */
+    .studio-canvas {
+      flex: 1;
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
 
-              // Price
-              h('div', { className: 'price-row' },
-                h('span', { className: 'price-current' }, '$' + curPrice),
-                h('span', { className: 'price-original' }, '$' + origPrice),
-                h('span', { className: 'save-badge' }, 'SAVE 50%')
-              ),
+    .canvas-topbar {
+      height: 52px;
+      background: #0B1120;
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    .device-switcher {
+      display: flex;
+      background: var(--panel-surface);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 4px;
+    }
+    .device-btn {
+      background: transparent;
+      border: none;
+      color: var(--panel-muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .device-btn.active { background: #334155; color: #FFF; }
 
-              // Stock Urgency
-              h('div', { className: 'urgency-box' },
-                h('div', { className: 'urgency-txt' },
-                  h('span', null, '🔥 High Holiday Demand'),
-                  h('span', null, 'Only ' + stock + ' Units Remaining!')
-                ),
-                h('div', { className: 'progress-bar-bg' },
-                  h('div', { className: 'progress-bar-fill' })
-                )
-              ),
+    .canvas-viewport {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      padding: 30px 20px;
+      background: #020617;
+    }
 
-              // Bundles Preview
-              bundles ? h('div', { style: { marginBottom: '16px' } },
-                bundles.map((b, idx) => {
-                  return h('div', { key: idx, className: 'bundle-card ' + (idx === 1 ? 'selected' : '') },
-                    h('div', null,
-                      h('div', { style: { fontSize: '13px', fontWeight: '800' } }, b.get('title') || 'Bundle Set'),
-                      h('div', { style: { fontSize: '11px', color: '#059669', fontWeight: '600' } }, b.get('sub') || '')
-                    ),
-                    h('div', { style: { fontSize: '15px', fontWeight: '800' } }, '$' + (b.get('total_price') || ''))
-                  );
-                })
-              ) : null,
+    .device-frame {
+      width: 100%;
+      max-width: 480px;
+      background: #FFFFFF;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      overflow-x: hidden;
+      color: #111827;
+      transition: max-width 0.3s ease;
+      min-height: 800px;
+    }
+    .device-frame.desktop { max-width: 1100px; border-radius: 12px; }
 
-              // CTA Button
-              h('button', { className: 'fallback-btn' }, cta),
+    /* Editable Indicator */
+    [contenteditable="true"] {
+      outline: 1px dashed transparent;
+      transition: outline 0.15s, background 0.15s;
+      border-radius: 4px;
+      padding: 1px 3px;
+    }
+    [contenteditable="true"]:hover {
+      outline: 1px dashed var(--accent);
+      background: rgba(37, 99, 235, 0.04);
+      cursor: text;
+    }
+    [contenteditable="true"]:focus {
+      outline: 2px solid var(--accent);
+      background: #FFF;
+    }
 
-              // Feature Bullets
-              bullets ? h('div', { className: 'bullets-card' },
-                bullets.map((item, i) => h('div', { key: i }, h('span', null, '✔'), item.get('text')))
-              ) : null,
+    /* Modal for Download/GitHub Sync */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      display: none; align-items: center; justify-content: center; z-index: 100;
+    }
+    .modal-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 24px;
+      width: 90%;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
 
-              // Customer Reviews
-              reviews ? h('div', { style: { marginTop: '30px' } },
-                h('div', { style: { fontSize: '14px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase' } }, 'Customer Reviews'),
-                reviews.map((r, i) => h('div', { key: i, className: 'review-item' },
-                  h('div', { style: { fontWeight: '700', display: 'flex', justifyContent: 'space-between', marginBottom: '4px' } },
-                    h('span', null, r.get('user')),
-                    h('span', { style: { color: '#059669', fontSize: '11px' } }, '✔ Verified')
-                  ),
-                  h('div', { style: { color: '#F59E0B', fontSize: '11px', marginBottom: '4px' } }, '★★★★★'),
-                  h('div', null, '"' + (r.get('comment') || '') + '"')
-                ))
-              ) : null,
+  <!-- LEFT CONTROL SIDEBAR -->
+  <aside class="studio-sidebar">
+    <div class="studio-header">
+      <div class="studio-brand">AURA <span>STUDIO</span></div>
+      <div style="font-size: 11px; color: var(--green); font-weight: 700;">● LIVE SYNC</div>
+    </div>
 
-              // FAQs
-              faqs ? h('div', { style: { marginTop: '30px' } },
-                h('div', { style: { fontSize: '14px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase' } }, 'FAQ'),
-                faqs.map((f, i) => h('div', { key: i, className: 'faq-item' },
-                  h('div', { style: { fontWeight: '700', marginBottom: '4px' } }, '☑ ' + (f.get('question') || '')),
-                  h('div', { style: { color: '#6B7280', fontSize: '12px', lineHeight: '1.4' } }, f.get('answer') || '')
-                ))
-              ) : null
-            )
-          );
-        }
+    <div class="studio-tabs">
+      <button class="studio-tab-btn active" onclick="switchTab('tab-general')">General</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-pricing')">Bundles</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-reviews')">Reviews</button>
+      <button class="studio-tab-btn" onclick="switchTab('tab-faqs')">FAQs</button>
+    </div>
+
+    <div class="studio-content" id="tab-general">
+      <div class="field-group">
+        <label class="field-label">Brand Name</label>
+        <input type="text" class="field-input" id="inp-brand" value="AURA GIFTS" oninput="syncField('brandLogo', this.value)">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Announcement Text</label>
+        <input type="text" class="field-input" id="inp-promo" value="✨ 50% OFF FLASH SALE ENDING IN:" oninput="syncField('promoText', this.value)">
+      </div>
+
+      <div class="toggle-row">
+        <span>Show Live Shoppers Bar</span>
+        <label class="switch">
+          <input type="checkbox" checked onchange="toggleSection('liveProofSection', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <span>Show Urgency Progress Bar</span>
+        <label class="switch">
+          <input type="checkbox" checked onchange="toggleSection('urgencyBox', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Main Product Title</label>
+        <textarea class="field-textarea" id="inp-title" oninput="syncField('prodTitle', this.value)">Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)</textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Primary Checkout URL (Shopify Link)</label>
+        <input type="text" class="field-input" id="inp-checkout" value="https://your-shopify-store.myshopify.com/cart/..." placeholder="https://...">
+      </div>
+    </div>
+
+    <div class="studio-content" id="tab-pricing" style="display: none;">
+      <div style="font-size: 12px; color: var(--panel-muted); margin-bottom: 8px;">Edit any bundle details below:</div>
+
+      <div style="background: var(--panel-surface); padding: 12px; border-radius: 10px; border: 1px solid var(--panel-border);">
+        <div class="field-label" style="margin-bottom:6px; color:#38BDF8;">Bundle 1 (Single Set)</div>
+        <input type="text" class="field-input" id="b1-title" value="Buy 1 Set (Holiday Starter)" style="margin-bottom:6px;" oninput="syncBundle(0)">
+        <div style="display:flex; gap:8px;">
+          <input type="text" class="field-input" id="b1-price" value="34.99" placeholder="Price" oninput="syncBundle(0)">
+          <input type="text" class="field-input" id="b1-orig" value="69.99" placeholder="Was" oninput="syncBundle(0)">
+        </div>
+      </div>
+
+      <div style="background: var(--panel-surface); padding: 12px; border-radius: 10px; border: 1px solid var(--panel-border);">
+        <div class="field-label" style="margin-bottom:6px; color:#FBBF24;">Bundle 2 (Most Popular)</div>
+        <input type="text" class="field-input" id="b2-title" value="Buy 2 Sets (Family & Gifting)" style="margin-bottom:6px;" oninput="syncBundle(1)">
+        <div style="display:flex; gap:8px;">
+          <input type="text" class="field-input" id="b2-price" value="59.99" placeholder="Price" oninput="syncBundle(1)">
+          <input type="text" class="field-input" id="b2-orig" value="139.98" placeholder="Was" oninput="syncBundle(1)">
+        </div>
+      </div>
+
+      <div style="background: var(--panel-surface); padding: 12px; border-radius: 10px; border: 1px solid var(--panel-border);">
+        <div class="field-label" style="margin-bottom:6px; color:#34D399;">Bundle 3 (Best Value)</div>
+        <input type="text" class="field-input" id="b3-title" value="Buy 3 Sets (Ultimate Home Decor)" style="margin-bottom:6px;" oninput="syncBundle(2)">
+        <div style="display:flex; gap:8px;">
+          <input type="text" class="field-input" id="b3-price" value="79.99" placeholder="Price" oninput="syncBundle(2)">
+          <input type="text" class="field-input" id="b3-orig" value="209.97" placeholder="Was" oninput="syncBundle(2)">
+        </div>
+      </div>
+    </div>
+
+    <div class="studio-content" id="tab-reviews" style="display: none;">
+      <div style="font-size: 12px; color: var(--panel-muted); margin-bottom: 8px;">Customer Reviews:</div>
+      <div id="review-fields-container" style="display:flex; flex-direction:column; gap:12px;"></div>
+    </div>
+
+    <div class="studio-content" id="tab-faqs" style="display: none;">
+      <div class="toggle-row" style="margin-bottom: 12px;">
+        <span>Show FAQ Section</span>
+        <label class="switch">
+          <input type="checkbox" checked onchange="toggleSection('faqSection', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div id="faq-fields-container" style="display:flex; flex-direction:column; gap:12px;"></div>
+    </div>
+
+    <div class="studio-footer">
+      <button class="btn-save" onclick="saveAndDownload()">
+        💾 Save & Export Site
+      </button>
+    </div>
+  </aside>
+
+  <!-- RIGHT LIVE EDITABLE CANVAS -->
+  <main class="studio-canvas">
+    <div class="canvas-topbar">
+      <div class="device-switcher">
+        <button class="device-btn active" onclick="setDevice('mobile')">📱 Mobile</button>
+        <button class="device-btn" onclick="setDevice('desktop')">💻 Desktop</button>
+      </div>
+      <div style="font-size: 12px; color: var(--panel-muted);">
+        ✨ <i>Click any text on the page to edit directly!</i>
+      </div>
+    </div>
+
+    <div class="canvas-viewport">
+      <div class="device-frame" id="liveFrame">
+
+        <!-- Top Announcement Bar -->
+        <div class="promo-bar" style="background:#000; color:#FFF; font-size:11px; font-weight:700; text-align:center; padding:10px;">
+          <span id="promoText" contenteditable="true">✨ 50% OFF FLASH SALE ENDING IN:</span>
+          <span style="color:#FBBF24; font-weight:800; margin-left:4px;">02:14:32</span>
+        </div>
+
+        <!-- Header -->
+        <div style="display:flex; align-items:center; justify-content:center; padding:16px; border-bottom:1px solid #E5E7EB; background:#FFF;">
+          <div id="brandLogo" contenteditable="true" style="font-size:18px; font-weight:800; letter-spacing:2px; text-transform:uppercase;">AURA GIFTS</div>
+        </div>
+
+        <!-- Live Proof -->
+        <div id="liveProofSection" style="display:flex; align-items:center; justify-content:center; gap:7px; padding:9px; font-size:12px; font-weight:600; background:#F0FDF4; color:#166534; border-bottom:1px solid #DCFCE7;">
+          <div style="width:8px; height:8px; background:#22C55E; border-radius:50%;"></div>
+          <span id="liveProofText" contenteditable="true">23 shoppers viewing right now | 148 orders placed today</span>
+        </div>
+
+        <!-- Main Body -->
+        <div style="padding:20px 16px;">
+          <!-- Product Image -->
+          <div style="width:100%; aspect-ratio:1/1; background:#FAFAFA; border-radius:14px; overflow:hidden; border:1px solid #E5E7EB; margin-bottom:14px; position:relative;">
+            <img id="mainImg" src="https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=800&q=80" style="width:100%; height:100%; object-fit:cover;">
+            <button onclick="promptChangeImage()" style="position:absolute; bottom:12px; right:12px; background:rgba(0,0,0,0.7); color:#FFF; border:none; padding:6px 12px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">📷 Change Photo</button>
+          </div>
+
+          <!-- Product Details -->
+          <div style="font-size:13px; font-weight:700; color:#F59E0B; margin-bottom:6px;">★★★★★ 4.9/5 (1,420+ Verified Reviews)</div>
+          <h1 id="prodTitle" contenteditable="true" style="font-size:22px; font-weight:800; line-height:1.3; margin-bottom:12px;">Magnetic Levitating Santa Sleigh (Holiday Ambient Edition)</h1>
+
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+            <span id="priceCurrent" contenteditable="true" style="font-size:28px; font-weight:800; color:#E11D48;">$34.99</span>
+            <span id="priceOriginal" contenteditable="true" style="font-size:16px; color:#6B7280; text-decoration:line-through;">$69.99</span>
+            <span style="background:#FEE2E2; color:#E11D48; font-size:11px; font-weight:800; padding:4px 8px; border-radius:20px;">SAVE 50%</span>
+          </div>
+
+          <!-- Urgency -->
+          <div id="urgencyBox" style="background:#FFFBEB; border:1px solid #FEF3C7; padding:12px; border-radius:10px; margin-bottom:20px;">
+            <div style="font-size:13px; font-weight:700; color:#92400E; display:flex; justify-content:space-between; margin-bottom:6px;">
+              <span>🔥 High Holiday Demand</span>
+              <span id="stockTxt" contenteditable="true">Only 5 Units Remaining!</span>
+            </div>
+            <div style="width:100%; height:6px; background:#FDE68A; border-radius:10px; overflow:hidden;">
+              <div style="width:86%; height:100%; background:#D97706;"></div>
+            </div>
+          </div>
+
+          <!-- Bundles List -->
+          <div id="bundleContainer" style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- CTA Button -->
+          <button id="ctaBtn" contenteditable="true" style="width:100%; padding:18px; background:#111827; color:#FFF; border-radius:12px; font-size:15px; font-weight:800; border:none; margin-bottom:20px; cursor:pointer;">
+            CLAIM OFFER & FREE DELIVERY
+          </button>
+
+          <!-- Bullets -->
+          <div id="bulletsBox" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:16px; font-size:13.5px; font-weight:600; line-height:1.9; margin-bottom:30px;">
+            <div><span style="color:#059669;">✔</span> Real Magnetic Levitation (Floats Smoothly)</div>
+            <div><span style="color:#059669;">✔</span> Ambient Warm Night Light for Cozy Spaces</div>
+            <div><span style="color:#059669;">✔</span> Includes Luxury Gift Box & USB-C Cable</div>
+            <div><span style="color:#059669;">✔</span> 30-Day Risk-Free Money-Back Guarantee</div>
+          </div>
+
+          <!-- Reviews -->
+          <div id="reviewsBox" style="border-top:1px solid #E5E7EB; padding-top:24px; margin-bottom:30px;">
+            <h3 style="font-size:16px; font-weight:800; text-align:center; text-transform:uppercase; margin-bottom:16px;">Customer Reviews & TikTok Unboxings</h3>
+            <div id="reviewsList" style="display:flex; flex-direction:column; gap:12px;"></div>
+          </div>
+
+          <!-- FAQs -->
+          <div id="faqSection" style="border-top:1px solid #E5E7EB; padding-top:24px; margin-bottom:30px;">
+            <h3 style="font-size:18px; font-weight:800; text-align:center; margin-bottom:16px;">FREQUENTLY ASKED QUESTIONS</h3>
+            <div id="faqList" style="display:flex; flex-direction:column;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // State
+    const storeState = {
+      bundles: [
+        { title: "Buy 1 Set (Holiday Starter)", sub: "Standard Gift Packaging", price: "34.99", orig: "69.99" },
+        { title: "Buy 2 Sets (Family & Gifting)", sub: "Free Gift Bag + Save $10", price: "59.99", orig: "139.98", ribbon: "MOST POPULAR" },
+        { title: "Buy 3 Sets (Ultimate Decor)", sub: "Free VIP Express Delivery", price: "79.99", orig: "209.97", ribbon: "BEST VALUE" }
+      ],
+      reviews: [
+        { user: "Samantha R. 🇺🇸", text: "Saw this on TikTok and took a chance. It literally floats in mid-air!" },
+        { user: "David M. 🇬🇧", text: "Arrived in 6 days. Rotation is super smooth and quiet." },
+        { user: "Chloe T. 🇦🇺", text: "Bought as an early Christmas gift for mom and she loved it!" }
+      ],
+      faqs: [
+        { q: "Is it hard to set up?", a: "Not at all! Balance it 1-2 cm above the center base and release gently." },
+        { q: "Does it make any noise?", a: "Zero noise. The magnetic suspension is completely silent." }
+      ]
+    };
+
+    function renderAll() {
+      // Bundles
+      const bContainer = document.getElementById('bundleContainer');
+      bContainer.innerHTML = '';
+      storeState.bundles.forEach((b, idx) => {
+        bContainer.innerHTML += `
+          <div style="border:${idx === 1 ? '2px solid #111' : '2px solid #E5E7EB'}; background:${idx === 1 ? '#FAFAFA' : '#FFF'}; border-radius:12px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; position:relative;">
+            ${b.ribbon ? `<span style="position:absolute; top:-9px; right:12px; background:${idx === 1 ? '#E11D48' : '#111'}; color:#FFF; font-size:10px; font-weight:800; padding:2px 8px; border-radius:12px;">${b.ribbon}</span>` : ''}
+            <div>
+              <div style="font-size:13.5px; font-weight:800;" contenteditable="true">${b.title}</div>
+              <div style="font-size:11.5px; color:#059669; font-weight:600;" contenteditable="true">${b.sub}</div>
+            </div>
+            <div style="font-size:16px; font-weight:800;" contenteditable="true">$${b.price}</div>
+          </div>
+        `;
       });
 
-      CMS.registerPreviewTemplate('settings', LiveVisualCustomizer);
-    </script>
-  </body>
+      // Reviews
+      const rList = document.getElementById('reviewsList');
+      rList.innerHTML = '';
+      storeState.reviews.forEach(r => {
+        rList.innerHTML += `
+          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:14px; font-size:13px;">
+            <div style="font-weight:700; display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span contenteditable="true">${r.user}</span>
+              <span style="color:#059669; font-size:11px;">✔ Verified Purchase</span>
+            </div>
+            <div style="color:#F59E0B; font-size:11px; margin-bottom:4px;">★★★★★</div>
+            <div contenteditable="true">"${r.text}"</div>
+          </div>
+        `;
+      });
+
+      // FAQs
+      const fList = document.getElementById('faqList');
+      fList.innerHTML = '';
+      storeState.faqs.forEach(f => {
+        fList.innerHTML += `
+          <div style="border-bottom:1px solid #E5E7EB; padding:14px 0;">
+            <div style="font-weight:700; font-size:14px; margin-bottom:4px;" contenteditable="true">☑ ${f.q}</div>
+            <div style="color:#6B7280; font-size:13px; line-height:1.5;" contenteditable="true">${f.a}</div>
+          </div>
+        `;
+      });
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.studio-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).style.display = 'flex';
+      event.target.classList.add('active');
+    }
+
+    function syncField(id, val) {
+      document.getElementById(id).innerText = val;
+    }
+
+    function syncBundle(idx) {
+      storeState.bundles[idx].title = document.getElementById(`b${idx+1}-title`).value;
+      storeState.bundles[idx].price = document.getElementById(`b${idx+1}-price`).value;
+      renderAll();
+    }
+
+    function toggleSection(id, show) {
+      document.getElementById(id).style.display = show ? 'flex' : 'none';
+      if (id === 'faqSection' && show) document.getElementById(id).style.display = 'block';
+    }
+
+    function setDevice(type) {
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      const frame = document.getElementById('liveFrame');
+      if (type === 'desktop') frame.classList.add('desktop');
+      else frame.classList.remove('desktop');
+    }
+
+    function promptChangeImage() {
+      const url = prompt("Paste your product image URL:", document.getElementById('mainImg').src);
+      if (url) document.getElementById('mainImg').src = url;
+    }
+
+    // Export and direct sync
+    function saveAndDownload() {
+      const liveHTML = document.getElementById('liveFrame').innerHTML;
+      const fullDoc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${document.getElementById('brandLogo').innerText}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #FFF; color: #111827; }
+    .main-wrapper { max-width: 520px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="main-wrapper">
+    ${liveHTML.replace(/contenteditable="true"/g, '').replace(/<button onclick="promptChangeImage\(\)".*?<\/button>/g, '')}
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([fullDoc], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      a.click();
+      alert('Updated index.html has been downloaded! Drag and drop it into your GitHub repo to publish instantly.');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderAll);
+  </script>
+</body>
 </html>
