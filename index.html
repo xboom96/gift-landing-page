@@ -657,7 +657,7 @@
     .sticky-price .now {
       font-size: 18px; 
       font-weight: 800; 
-      color: var(--accent);
+      color: var(--accent); 
     }
     .sticky-price .was {
       font-size: 11px; 
@@ -766,7 +766,7 @@
           </div>
         </div>
 
-        <!-- AOV Bundle Selector (Pre-rendered) -->
+        <!-- AOV Bundle Selector -->
         <div class="bundle-section" id="bundleSection">
           <div class="bundle-header-label">
             <span>Select Your Bundle</span>
@@ -826,7 +826,7 @@
           </button>
         </div>
 
-        <!-- Feature Bullets (Pre-rendered) -->
+        <!-- Feature Bullets -->
         <div class="bullets-card" id="bulletsCard">
           <div><span>✔</span> Real Magnetic Levitation (Floats & Rotates Smoothly)</div>
           <div><span>✔</span> Ambient Warm Night Light for Cozy Spaces</div>
@@ -838,7 +838,7 @@
     </div>
   </div>
 
-  <!-- Reviews (Pre-rendered in pure HTML) -->
+  <!-- Reviews -->
   <div class="reviews-box">
     <div class="reviews-heading">Customer Reviews & TikTok Unboxings</div>
     <div class="reviews-grid" id="reviewsGrid">
@@ -877,7 +877,7 @@
     </div>
   </div>
 
-  <!-- FAQ Section (Pre-rendered in pure HTML) -->
+  <!-- FAQ Section -->
   <section class="faq-section">
     <h2 class="faq-heading">FAQ'S</h2>
     <div class="faq-list" id="faqList">
@@ -1003,165 +1003,28 @@
 
   <script>
     let activeBundleIndex = 1;
-    let liveData = null;
 
-    async function initPage() {
-      try {
-        const res = await fetch('/content/settings.json?v=' + new Date().getTime());
-        if (res.ok) {
-          liveData = await res.json();
-          hydrateSite(liveData);
-        }
-      } catch (e) {
-        console.warn('Using pre-rendered static content');
-      }
-    }
+    const bundleData = [
+      { qty: 1, price: 34.99, orig: 69.99, save: "Save 50%", text: "CLAIM 50% OFF & FREE DELIVERY" },
+      { qty: 2, price: 59.99, orig: 139.98, save: "Save 57%", text: "CLAIM 2 SETS FOR $59.99 (FREE DELIVERY)" },
+      { qty: 3, price: 79.99, orig: 209.97, save: "Save 62%", text: "CLAIM 3 SETS FOR $79.99 (FREE DELIVERY)" }
+    ];
 
-    function safeText(id, val) {
-      const el = document.getElementById(id);
-      if (el && val !== undefined && val !== null) el.innerText = val;
-    }
-
-    function hydrateSite(data) {
-      safeText('brandLogo', data.logo_text);
-      safeText('footerBrandLogo', data.logo_text);
-      safeText('promoText', data.promo_text);
-      safeText('liveProofText', data.live_proof_text);
-      safeText('prodTitle', data.product_title);
-      safeText('reviewSummary', data.review_summary);
-      if (data.stock_remaining) safeText('stockRemainingText', `Only ${data.stock_remaining} Units Remaining!`);
-
-      // Gallery
-      if (data.gallery_images && data.gallery_images.length > 0) {
-        const mainImg = document.getElementById('mainDisplay');
-        if (mainImg) mainImg.src = data.gallery_images[0].image_url;
-
-        const strip = document.getElementById('thumbnailStrip');
-        if (strip) {
-          strip.innerHTML = '';
-          data.gallery_images.forEach((img, i) => {
-            const btn = document.createElement('button');
-            btn.className = `thumb-card ${i === 0 ? 'active' : ''}`;
-            btn.onclick = () => changeImage(img.image_url, btn);
-            btn.innerHTML = `<img src="${img.image_url}" alt="Angle ${i+1}">`;
-            strip.appendChild(btn);
-          });
-        }
-      }
-
-      // Feature Bullets
-      if (data.feature_bullets && data.feature_bullets.length > 0) {
-        const bCard = document.getElementById('bulletsCard');
-        if (bCard) {
-          bCard.innerHTML = '';
-          data.feature_bullets.forEach(b => {
-            const div = document.createElement('div');
-            div.innerHTML = `<span>✔</span> ${b.text}`;
-            bCard.appendChild(div);
-          });
-        }
-      }
-
-      // Bundles
-      if (data.bundles && data.bundles.length > 0) {
-        renderDynamicBundles(data.bundles);
-      }
-
-      // Reviews
-      if (data.reviews && data.reviews.length > 0) {
-        const rGrid = document.getElementById('reviewsGrid');
-        if (rGrid) {
-          rGrid.innerHTML = '';
-          data.reviews.forEach(r => {
-            const item = document.createElement('div');
-            item.className = 'review-item';
-            item.innerHTML = `
-              <div class="review-user">
-                <span>${r.user}</span>
-                <span class="verified-chip">✔ Verified Purchase</span>
-              </div>
-              <div class="stars">★★★★★</div>
-              <div>"${r.comment}"</div>
-            `;
-            rGrid.appendChild(item);
-          });
-        }
-      }
-
-      // FAQs
-      if (data.faqs && data.faqs.length > 0) {
-        const fList = document.getElementById('faqList');
-        if (fList) {
-          fList.innerHTML = '';
-          data.faqs.forEach(f => {
-            const item = document.createElement('div');
-            item.className = 'faq-item';
-            item.innerHTML = `
-              <button class="faq-question" onclick="toggleFaq(this)">
-                <div class="faq-left">
-                  <span class="faq-icon">☑</span>
-                  <span>${f.question}</span>
-                </div>
-                <span class="faq-arrow">▼</span>
-              </button>
-              <div class="faq-answer">${f.answer}</div>
-            `;
-            fList.appendChild(item);
-          });
-        }
-      }
-    }
-
-    function renderDynamicBundles(bundles) {
-      const container = document.getElementById('bundleContainer');
-      if (!container) return;
-      container.innerHTML = '';
-
-      bundles.forEach((tier, index) => {
-        const isSelected = index === activeBundleIndex;
-        const ribbonHtml = tier.ribbon 
-          ? `<span class="bundle-ribbon ${tier.ribbon.includes('POPULAR') ? 'popular' : ''}">${tier.ribbon}</span>` 
-          : '';
-
-        const card = document.createElement('div');
-        card.className = `bundle-card ${isSelected ? 'selected' : ''}`;
-        card.onclick = () => {
-          activeBundleIndex = index;
-          renderDynamicBundles(bundles);
-        };
-
-        card.innerHTML = `
-          ${ribbonHtml}
-          <div class="bundle-card-left">
-            <div class="bundle-radio"></div>
-            <div>
-              <div class="bundle-text-main">${tier.title}</div>
-              <div class="bundle-text-sub">${tier.sub}</div>
-            </div>
-          </div>
-          <div class="bundle-card-right">
-            <div class="bundle-price-total">$${parseFloat(tier.total_price).toFixed(2)}</div>
-            <div class="bundle-price-each">$${(parseFloat(tier.total_price) / (tier.qty || 1)).toFixed(2)} / ea</div>
-          </div>
-        `;
-        container.appendChild(card);
+    function selectTier(idx) {
+      activeBundleIndex = idx;
+      const cards = document.querySelectorAll('.bundle-card');
+      cards.forEach((card, i) => {
+        if (i === idx) card.classList.add('selected');
+        else card.classList.remove('selected');
       });
 
-      const sel = bundles[activeBundleIndex];
-      if (sel) {
-        safeText('displayCurrentPrice', `$${parseFloat(sel.total_price).toFixed(2)}`);
-        safeText('displayOriginalPrice', `$${parseFloat(sel.orig_price).toFixed(2)}`);
-        safeText('displaySaveBadge', sel.save_text);
-        safeText('stickyNowPrice', `$${parseFloat(sel.total_price).toFixed(2)}`);
-        safeText('stickyWasPrice', `$${parseFloat(sel.orig_price).toFixed(2)}`);
-        
-        const btn = document.getElementById('ctaButton');
-        if (btn) {
-          btn.innerText = (sel.qty > 1) 
-            ? `CLAIM ${sel.qty} SETS FOR $${parseFloat(sel.total_price).toFixed(2)} (FREE DELIVERY)` 
-            : `CLAIM OFFER & FREE DELIVERY`;
-        }
-      }
+      const b = bundleData[idx];
+      document.getElementById('displayCurrentPrice').innerText = '$' + b.price.toFixed(2);
+      document.getElementById('displayOriginalPrice').innerText = '$' + b.orig.toFixed(2);
+      document.getElementById('displaySaveBadge').innerText = b.save;
+      document.getElementById('stickyNowPrice').innerText = '$' + b.price.toFixed(2);
+      document.getElementById('stickyWasPrice').innerText = '$' + b.orig.toFixed(2);
+      document.getElementById('ctaButton').innerText = b.text;
     }
 
     function toggleFaq(button) {
@@ -1171,33 +1034,26 @@
       if (!isActive) item.classList.add('active');
     }
 
-    function changeImage(imageUrl, btn) {
+    function changeImage(imageUrl, buttonElement) {
       const mainImg = document.getElementById('mainDisplay');
-      if (mainImg) {
-        mainImg.style.opacity = '0.35';
-        setTimeout(() => {
-          mainImg.src = imageUrl;
-          mainImg.style.opacity = '1';
-        }, 100);
-      }
-      document.querySelectorAll('.thumb-card').forEach(c => c.classList.remove('active'));
-      if (btn) btn.classList.add('active');
+      mainImg.style.opacity = '0.35';
+      setTimeout(() => {
+        mainImg.src = imageUrl;
+        mainImg.style.opacity = '1';
+      }, 100);
+      document.querySelectorAll('.thumb-card').forEach(card => card.classList.remove('active'));
+      buttonElement.classList.add('active');
     }
 
     function handleCheckout() {
-      if (liveData && liveData.bundles && liveData.bundles[activeBundleIndex]) {
-        const b = liveData.bundles[activeBundleIndex];
-        if (b.checkout_url && b.checkout_url !== '#') {
-          window.location.href = b.checkout_url;
-          return;
-        }
-      }
-      if (liveData && liveData.checkout_url && liveData.checkout_url !== '#') {
-        window.location.href = liveData.checkout_url;
-        return;
-      }
-      const container = document.getElementById('shopify-button-container');
-      if (container) container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const checkoutLinks = [
+        "https://myhandmadebags.shop/cart/46529887961185:1",
+        "https://myhandmadebags.shop/cart/46529887961185:2",
+        "https://myhandmadebags.shop/cart/46529887961185:3"
+      ];
+
+      const targetUrl = checkoutLinks[activeBundleIndex] || checkoutLinks[0];
+      window.location.href = targetUrl;
     }
 
     let time = 8072;
@@ -1205,14 +1061,9 @@
       let h = Math.floor(time / 3600).toString().padStart(2, '0');
       let m = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
       let s = (time % 60).toString().padStart(2, '0');
-      const timerEl = document.getElementById('timer');
-      if (timerEl) timerEl.innerText = `${h}:${m}:${s}`;
+      document.getElementById('timer').innerText = `${h}:${m}:${s}`;
       if (time > 0) time--;
     }, 1000);
-
-    document.addEventListener('DOMContentLoaded', initPage);
   </script>
-</body>
-</html>
 </body>
 </html>
